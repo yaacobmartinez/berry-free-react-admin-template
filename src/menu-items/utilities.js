@@ -28,7 +28,7 @@ const utilities = {
         },
         {
             id: 'util-color',
-            title: 'Color',
+            title: 'Monitoring',
             type: 'item',
             url: '/utils/util-color',
             icon: icons.IconPalette,
