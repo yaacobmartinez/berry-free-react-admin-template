@@ -20,7 +20,7 @@ const utilities = {
     children: [
         {
             id: 'util-typography',
-            title: 'Typography',
+            title: 'Products',
             type: 'item',
             url: '/utils/util-typography',
             icon: icons.IconTypography,
