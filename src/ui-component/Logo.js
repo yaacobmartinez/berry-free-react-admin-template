@@ -3,7 +3,6 @@ import React from 'react';
 
 // material-ui
 import { useTheme } from '@material-ui/styles';
-import logo from './../../assets/images/lgo.jpeg';
 
 /**
  * if you want to use image instead of <svg> uncomment following.
@@ -17,7 +16,7 @@ import logo from './../../assets/images/lgo.jpeg';
 
 const Logo = () => {
     const theme = useTheme();
-    <img src= {logo} alt="Berry" width="100" />
+    <img src= './assets/images/lgo.jpeg' alt="Berry" width="100" />
     return (
         /**
          * if you want to use image instead of svg uncomment following, and comment out <svg> element.
