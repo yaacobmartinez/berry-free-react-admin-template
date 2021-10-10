@@ -1,13 +1,16 @@
 import React from 'react';
 
+
 // material-ui
 import { useTheme } from '@material-ui/styles';
 
+import logo from './../../assets/images/lgo.jpeg';
+import logoDark from './../../assets/images/lgo.jpeg';
 /**
  * if you want to use image instead of <svg> uncomment following.
  *
- * import logoDark from './../../assets/images/logo-dark.svg';
- * import logo from './../../assets/images/logo.svg';
+ * 
+ * 
  *
  */
 
