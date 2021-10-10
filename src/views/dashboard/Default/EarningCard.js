@@ -154,16 +154,16 @@ const EarningCard = ({ isLoading }) => {
                                         }}
                                     >
                                         <MenuItem onClick={handleClose}>
-                                            <GetAppTwoToneIcon fontSize="inherit" className={classes.menuItem} /> 
+                                            <GetAppTwoToneIcon fontSize="inherit" className={classes.menuItem} /> Import Card
                                         </MenuItem>
                                         <MenuItem onClick={handleClose}>
-                                            <FileCopyTwoToneIcon fontSize="inherit" className={classes.menuItem} /> 
+                                            <FileCopyTwoToneIcon fontSize="inherit" className={classes.menuItem} /> Copy Data
                                         </MenuItem>
                                         <MenuItem onClick={handleClose}>
-                                            <PictureAsPdfTwoToneIcon fontSize="inherit" className={classes.menuItem} />
+                                            <PictureAsPdfTwoToneIcon fontSize="inherit" className={classes.menuItem} /> Export
                                         </MenuItem>
                                         <MenuItem onClick={handleClose}>
-                                            <ArchiveTwoToneIcon fontSize="inherit" className={classes.menuItem} /> 
+                                            <ArchiveTwoToneIcon fontSize="inherit" className={classes.menuItem} /> Archive File
                                         </MenuItem>
                                     </Menu>
                                 </Grid>
