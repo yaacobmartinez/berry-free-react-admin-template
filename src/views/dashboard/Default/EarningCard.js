@@ -137,7 +137,35 @@ const EarningCard = ({ isLoading }) => {
                                     >
                                         <MoreHorizIcon fontSize="inherit" />
                                     </Avatar>
-                                    
+                                    <Menu
+                                        id="menu-earning-card"
+                                        anchorEl={anchorEl}
+                                        keepMounted
+                                        open={Boolean(anchorEl)}
+                                        onClose={handleClose}
+                                        variant="selectedMenu"
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'right'
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'right'
+                                        }}
+                                    >
+                                        <MenuItem onClick={handleClose}>
+                                            <GetAppTwoToneIcon fontSize="inherit" className={classes.menuItem} /> 
+                                        </MenuItem>
+                                        <MenuItem onClick={handleClose}>
+                                            <FileCopyTwoToneIcon fontSize="inherit" className={classes.menuItem} /> 
+                                        </MenuItem>
+                                        <MenuItem onClick={handleClose}>
+                                            <PictureAsPdfTwoToneIcon fontSize="inherit" className={classes.menuItem} />
+                                        </MenuItem>
+                                        <MenuItem onClick={handleClose}>
+                                            <ArchiveTwoToneIcon fontSize="inherit" className={classes.menuItem} /> 
+                                        </MenuItem>
+                                    </Menu>
                                 </Grid>
                             </Grid>
                         </Grid>
