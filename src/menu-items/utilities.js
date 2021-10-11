@@ -23,7 +23,6 @@ const utilities = {
             title: 'Products',
             type: 'item',
             url: '/utils/util-typography',
-            icon: icons.IconTypography,
             breadcrumbs: false
         },
         {
@@ -31,7 +30,6 @@ const utilities = {
             title: 'Monitoring',
             type: 'item',
             url: '/utils/util-color',
-            icon: icons.IconPalette,
             breadcrumbs: false
         },
         {
@@ -39,14 +37,12 @@ const utilities = {
             title: 'Shadow',
             type: 'item',
             url: '/utils/util-shadow',
-            icon: icons.IconShadow,
             breadcrumbs: false
         },
         {
             id: 'icons',
             title: 'Icons',
             type: 'collapse',
-            icon: icons.IconWindmill,
             children: [
                 {
                     id: 'tabler-icons',
