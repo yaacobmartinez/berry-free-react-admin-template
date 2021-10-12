@@ -28,30 +28,10 @@ const Login = () => {
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
                             <AuthCardWrapper>
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
-                                    <Grid item sx={{ mb: 3 }}>
+                                    <Grid item sx={{ mb: 1 }}>
                                         <RouterLink to="#">
-                                            <Logo />
+                                            <img src="./images/logo.png" alt="logo" width="200px" height="auto" />
                                         </RouterLink>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Grid
-                                            container
-                                            direction={matchDownSM ? 'column-reverse' : 'row'}
-                                            alignItems="center"
-                                            justifyContent="center"
-                                        >
-                                            <Grid item>
-                                                <Stack alignItems="center" justifyContent="center" spacing={1}>
-                                                    <Typography
-                                                        color={theme.palette.secondary.main}
-                                                        gutterBottom
-                                                        variant={matchDownSM ? 'h3' : 'h2'}
-                                                    >
-                                                        Hi, Welcome Back
-                                                    </Typography>
-                                                </Stack>
-                                            </Grid>
-                                        </Grid>
                                     </Grid>
                                     <Grid item xs={12}>
                                         <FirebaseLogin login={3} />
@@ -63,7 +43,7 @@ const Login = () => {
                                         <Grid item container direction="column" alignItems="center" xs={12}>
                                             <Typography
                                                 component={RouterLink}
-                                                to="/pages/register/register3"
+                                                to="/register"
                                                 variant="subtitle1"
                                                 sx={{ textDecoration: 'none' }}
                                             >

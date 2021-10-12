@@ -123,8 +123,8 @@ const FirebaseLogin = (props, { ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    email: '',
+                    password: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -134,6 +134,7 @@ const FirebaseLogin = (props, { ...others }) => {
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (scriptedRef.current) {
+                            console.log(values);
                             setStatus({ success: true });
                             setSubmitting(false);
                         }

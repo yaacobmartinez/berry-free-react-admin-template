@@ -30,7 +30,7 @@ const Register = () => {
                                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                                     <Grid item sx={{ mb: 3 }}>
                                         <RouterLink to="#">
-                                            <Logo />
+                                            <img src="./images/logo.png" alt="logo" width="200px" height="auto" />
                                         </RouterLink>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -47,7 +47,7 @@ const Register = () => {
                                                         gutterBottom
                                                         variant={matchDownSM ? 'h3' : 'h2'}
                                                     >
-                                                        Sign up
+                                                        Sign up for an account
                                                     </Typography>
                                                 </Stack>
                                             </Grid>
@@ -63,7 +63,7 @@ const Register = () => {
                                         <Grid item container direction="column" alignItems="center" xs={12}>
                                             <Typography
                                                 component={RouterLink}
-                                                to="/pages/login/login3"
+                                                to="/auth"
                                                 variant="subtitle1"
                                                 sx={{ textDecoration: 'none' }}
                                             >

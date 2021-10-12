@@ -1,6 +1,6 @@
 import React from 'react';
 // material-ui
-import { Grid, Link } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import MuiTypography from '@material-ui/core/Typography';
 
 // project imports
