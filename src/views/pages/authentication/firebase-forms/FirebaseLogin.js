@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'
 // material-ui
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -17,6 +17,7 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
+    Snackbar,
     Stack,
     Typography
 } from '@material-ui/core';
@@ -28,12 +29,12 @@ import { Formik } from 'formik';
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-
 // assets
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import { saveToStorage } from 'utils/storage';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -78,6 +79,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FirebaseLogin = (props, { ...others }) => {
     const classes = useStyles();
+    const navigate = useNavigate()
 
     const customization = useSelector((state) => state.customization);
     const scriptedRef = useScriptRef();
@@ -96,9 +98,15 @@ const FirebaseLogin = (props, { ...others }) => {
         event.preventDefault();
     };
 
+    const [message, setMessage] = React.useState(false)
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
+                <Snackbar 
+                    open={Boolean(message)} 
+                    onClose={() =>setMessage(false)}
+                    autoHideDuration={6000} message={message}
+                    anchorOrigin={{vertical: 'top' , horizontal: 'right'}} />
                 <Grid item xs={12}>
                     <Box
                         sx={{
@@ -135,6 +143,13 @@ const FirebaseLogin = (props, { ...others }) => {
                     try {
                         if (scriptedRef.current) {
                             console.log(values);
+                            const {data} = await axios.post('http://localhost:5001/auth', values)
+                            if (!data.success) {
+                                setMessage(data.message)
+                            }
+                            saveToStorage('token', data.token)
+                            saveToStorage('user', data.user)
+                            navigate('/dashboard/default')
                             setStatus({ success: true });
                             setSubmitting(false);
                         }

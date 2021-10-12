@@ -26,7 +26,7 @@ import {
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-
+import axios from 'axios'
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
 import Google from 'assets/images/icons/social-google.svg';
@@ -111,14 +111,14 @@ const FirebaseRegister = ({ ...others }) => {
         changePassword('123456');
     }, []);
 
-    const [message, setMessage] = React.useState(true);
+    const [message, setMessage] = React.useState(false);
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Snackbar 
-                    open={message} 
+                    open={Boolean(message)} 
                     onClose={() =>setMessage(false)}
-                    autoHideDuration={6000} message="Account Created. Please Login to Continue." 
+                    autoHideDuration={6000} message={message}
                     anchorOrigin={{vertical: 'top' , horizontal: 'right'}} />
                 <Grid item xs={12}>
                     <Box
@@ -148,7 +148,8 @@ const FirebaseRegister = ({ ...others }) => {
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (scriptedRef.current) {
-                            console.log(values);
+                            const {data} = await axios.post(`http://localhost:5001/register`, values)
+                            setMessage(data.message)
                             setStatus({ success: true });
                             setSubmitting(false);
                         }
