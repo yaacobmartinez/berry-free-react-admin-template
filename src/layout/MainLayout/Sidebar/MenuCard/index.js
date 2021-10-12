@@ -75,7 +75,7 @@ const UpgradePlanCard = () => {
                             <AnimateButton>
                                 <Button
                                     component={Link}
-                                    href="https://berrydashboard.io/"
+                                    href="https://www.facebook.com/MGJ-FOOD-Product-Trading-101049688683399"
                                     target="_blank"
                                     variant="contained"
                                     className={classes.button}
