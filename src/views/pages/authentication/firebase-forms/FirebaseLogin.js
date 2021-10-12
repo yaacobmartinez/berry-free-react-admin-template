@@ -100,20 +100,6 @@ const FirebaseLogin = (props, { ...others }) => {
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12}>
-                    <AnimateButton>
-                        <Button
-                            disableElevation
-                            fullWidth
-                            className={classes.redButton}
-                            onClick={googleHandler}
-                            size="large"
-                            variant="contained"
-                        >
-                            <img src={Google} alt="google" width="20px" className={classes.loginIcon} /> Sign in with Google
-                        </Button>
-                    </AnimateButton>
-                </Grid>
-                <Grid item xs={12}>
                     <Box
                         sx={{
                             alignItems: 'center',
@@ -121,17 +107,6 @@ const FirebaseLogin = (props, { ...others }) => {
                         }}
                     >
                         <Divider className={classes.signDivider} orientation="horizontal" />
-                        <AnimateButton>
-                            <Button
-                                variant="outlined"
-                                className={classes.signText}
-                                sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                disableRipple
-                                disabled
-                            >
-                                OR
-                            </Button>
-                        </AnimateButton>
                         <Divider className={classes.signDivider} orientation="horizontal" />
                     </Box>
                 </Grid>
@@ -148,8 +123,8 @@ const FirebaseLogin = (props, { ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    email: '',
+                    password: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -159,6 +134,7 @@ const FirebaseLogin = (props, { ...others }) => {
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (scriptedRef.current) {
+                            console.log(values);
                             setStatus({ success: true });
                             setSubmitting(false);
                         }

@@ -38,17 +38,17 @@
             {
                 "ignoreRestSiblings": false
             }
-        ],
-        "prettier/prettier": [
-            2,
-            {
-                "bracketSpacing": true,
-                "printWidth": 140,
-                "singleQuote": true,
-                "trailingComma": "none",
-                "tabWidth": 4,
-                "useTabs": false
-            }
         ]
+        // "prettier/prettier": [
+        //     2,
+        //     {
+        //         "bracketSpacing": true,
+        //         "printWidth": 140,
+        //         "singleQuote": true,
+        //         "trailingComma": "none",
+        //         "tabWidth": 4,
+        //         "useTabs": false
+        //     }
+        // ]
     }
 }

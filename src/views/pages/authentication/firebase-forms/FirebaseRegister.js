@@ -17,6 +17,7 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
+    Snackbar,
     TextField,
     Typography,
     useMediaQuery
@@ -110,24 +111,15 @@ const FirebaseRegister = ({ ...others }) => {
         changePassword('123456');
     }, []);
 
+    const [message, setMessage] = React.useState(true);
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
-                <Grid item xs={12}>
-                    <AnimateButton>
-                        <Button
-                            disableElevation
-                            fullWidth
-                            className={classes.redButton}
-                            onClick={googleHandler}
-                            size="large"
-                            variant="contained"
-                        >
-                            <img src={Google} alt="google" width="20px" sx={{ mr: { xs: 1, sm: 2 } }} className={classes.loginIcon} /> Sign
-                            up with Google
-                        </Button>
-                    </AnimateButton>
-                </Grid>
+                <Snackbar 
+                    open={message} 
+                    onClose={() =>setMessage(false)}
+                    autoHideDuration={6000} message="Account Created. Please Login to Continue." 
+                    anchorOrigin={{vertical: 'top' , horizontal: 'right'}} />
                 <Grid item xs={12}>
                     <Box
                         sx={{
@@ -136,35 +128,17 @@ const FirebaseRegister = ({ ...others }) => {
                         }}
                     >
                         <Divider className={classes.signDivider} orientation="horizontal" />
-                        <AnimateButton>
-                            <Button
-                                variant="outlined"
-                                className={classes.signText}
-                                sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                disableRipple
-                                disabled
-                            >
-                                OR
-                            </Button>
-                        </AnimateButton>
                         <Divider className={classes.signDivider} orientation="horizontal" />
-                    </Box>
-                </Grid>
-                <Grid item xs={12} container alignItems="center" justifyContent="center">
-                    <Box
-                        sx={{
-                            mb: 2
-                        }}
-                    >
-                        <Typography variant="subtitle1">Sign up with Email address</Typography>
                     </Box>
                 </Grid>
             </Grid>
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    password: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -174,6 +148,7 @@ const FirebaseRegister = ({ ...others }) => {
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (scriptedRef.current) {
+                            console.log(values);
                             setStatus({ success: true });
                             setSubmitting(false);
                         }
@@ -195,9 +170,11 @@ const FirebaseRegister = ({ ...others }) => {
                                     fullWidth
                                     label="First Name"
                                     margin="normal"
-                                    name="fname"
                                     type="text"
-                                    defaultValue="Joseph"
+                                    name="firstName"
+                                    value={values.firstName}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
                                     className={classes.loginInput}
                                 />
                             </Grid>
@@ -206,9 +183,11 @@ const FirebaseRegister = ({ ...others }) => {
                                     fullWidth
                                     label="Last Name"
                                     margin="normal"
-                                    name="lname"
                                     type="text"
-                                    defaultValue="Doe"
+                                    name="lastName"
+                                    value={values.lastName}
+                                    onBlur={handleBlur}
+                                    onChange={handleChange}
                                     className={classes.loginInput}
                                 />
                             </Grid>
@@ -303,28 +282,6 @@ const FirebaseRegister = ({ ...others }) => {
                             </FormControl>
                         )}
 
-                        <Grid container alignItems="center" justifyContent="space-between">
-                            <Grid item>
-                                <FormControlLabel
-                                    control={
-                                        <Checkbox
-                                            checked={checked}
-                                            onChange={(event) => setChecked(event.target.checked)}
-                                            name="checked"
-                                            color="primary"
-                                        />
-                                    }
-                                    label={
-                                        <Typography variant="subtitle1">
-                                            Agree with &nbsp;
-                                            <Typography variant="subtitle1" component={Link} to="#">
-                                                Terms & Condition.
-                                            </Typography>
-                                        </Typography>
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
                         {errors.submit && (
                             <Box
                                 sx={{

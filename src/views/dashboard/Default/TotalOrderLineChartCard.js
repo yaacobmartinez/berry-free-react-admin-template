@@ -119,24 +119,6 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                         <LocalMallOutlinedIcon fontSize="inherit" />
                                     </Avatar>
                                 </Grid>
-                                <Grid item>
-                                    <Button
-                                        disableElevation
-                                        variant={timeValue ? 'contained' : 'string'}
-                                        size="small"
-                                        onClick={(e) => handleChangeTime(e, true)}
-                                    >
-                                        Month
-                                    </Button>
-                                    <Button
-                                        disableElevation
-                                        variant={!timeValue ? 'contained' : 'string'}
-                                        size="small"
-                                        onClick={(e) => handleChangeTime(e, false)}
-                                    >
-                                        Year
-                                    </Button>
-                                </Grid>
                             </Grid>
                         </Grid>
                         <Grid item sx={{ mb: 0.75 }}>
