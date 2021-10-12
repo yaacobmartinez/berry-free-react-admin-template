@@ -15,7 +15,6 @@ const icons = {
 
 const utilities = {
     id: 'utilities',
-    title: 'Utilities',
     type: 'group',
     children: [
         {
