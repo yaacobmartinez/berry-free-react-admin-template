@@ -63,22 +63,12 @@ const UpgradePlanCard = () => {
             <CardContent>
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
-                        <Typography variant="h4">Upgrade your plan</Typography>
+                        <Typography variant="h4">Welcome to MGJ E SHOP</Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="subtitle2" className={classes.tagLine}>
-                            70% discount for 1 years <br />
-                            subscriptions.
+                            Know More about MGJ E SHOP
                         </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Stack direction="row">
-                            <AnimateButton>
-                                <Button variant="contained" className={classes.button}>
-                                    Go Premium
-                                </Button>
-                            </AnimateButton>
-                        </Stack>
                     </Grid>
                 </Grid>
             </CardContent>

@@ -67,7 +67,7 @@ const UpgradePlanCard = () => {
                     </Grid>
                     <Grid item>
                         <Typography variant="subtitle2" className={classes.tagLine}>
-                            Know More about MGJ E SHOP?
+                            Know More about MGJ E SHOP
                         </Typography>
                     </Grid>
                     <Grid item>
