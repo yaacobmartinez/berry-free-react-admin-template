@@ -114,21 +114,6 @@ const FirebaseRegister = ({ ...others }) => {
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12}>
-                    <AnimateButton>
-                        <Button
-                            disableElevation
-                            fullWidth
-                            className={classes.redButton}
-                            onClick={googleHandler}
-                            size="large"
-                            variant="contained"
-                        >
-                            <img src={Google} alt="google" width="20px" sx={{ mr: { xs: 1, sm: 2 } }} className={classes.loginIcon} /> Sign
-                            up with Google
-                        </Button>
-                    </AnimateButton>
-                </Grid>
-                <Grid item xs={12}>
                     <Box
                         sx={{
                             alignItems: 'center',
@@ -136,27 +121,7 @@ const FirebaseRegister = ({ ...others }) => {
                         }}
                     >
                         <Divider className={classes.signDivider} orientation="horizontal" />
-                        <AnimateButton>
-                            <Button
-                                variant="outlined"
-                                className={classes.signText}
-                                sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                disableRipple
-                                disabled
-                            >
-                                OR
-                            </Button>
-                        </AnimateButton>
                         <Divider className={classes.signDivider} orientation="horizontal" />
-                    </Box>
-                </Grid>
-                <Grid item xs={12} container alignItems="center" justifyContent="center">
-                    <Box
-                        sx={{
-                            mb: 2
-                        }}
-                    >
-                        <Typography variant="subtitle1">Sign up with Email address</Typography>
                     </Box>
                 </Grid>
             </Grid>
