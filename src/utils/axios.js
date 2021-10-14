@@ -1,9 +1,10 @@
 import axios from "axios";
 import { cloneDeep } from "lodash";
-import {fetchFromStorage} from "./storage"
+import {fetchFromStorage} from "./storage";
 
+const apiUrl = 'https://izsb5zbq3i.execute-api.ap-southeast-1.amazonaws.com'
 const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_BASE_API_URL,
+    baseURL: apiUrl,
     headers: {
       "Content-Type": "application/json",
     },
