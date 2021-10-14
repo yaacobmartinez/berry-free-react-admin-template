@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
-
+import { useNavigate } from 'react-router'
 // material-ui
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { AppBar, CssBaseline, Toolbar, useMediaQuery } from '@material-ui/core';
@@ -20,6 +20,7 @@ import { SET_MENU } from 'store/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+import { fetchFromStorage } from 'utils/storage';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +81,8 @@ const MainLayout = () => {
     const classes = useStyles();
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
-
+    const token = fetchFromStorage('token')
+    const navigate = useNavigate()
     // Handle left drawer
     const leftDrawerOpened = useSelector((state) => state.customization.opened);
     const dispatch = useDispatch();
@@ -89,6 +91,7 @@ const MainLayout = () => {
     };
 
     React.useEffect(() => {
+        if (!token) navigate('/')
         dispatch({ type: SET_MENU, opened: !matchDownMd });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);

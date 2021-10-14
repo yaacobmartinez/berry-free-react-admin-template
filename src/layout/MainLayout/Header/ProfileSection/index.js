@@ -34,6 +34,9 @@ import UpgradePlanCard from './UpgradePlanCard';
 // assets
 import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
 import User1 from 'assets/images/users/user-round.svg';
+import { useNavigate } from 'react-router';
+import { fetchFromStorage } from 'utils/storage';
+import { AccountCircle } from '@material-ui/icons';
 
 // style const
 const useStyles = makeStyles((theme) => ({
@@ -118,7 +121,8 @@ const ProfileSection = () => {
     const classes = useStyles();
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
-
+    const navigate = useNavigate()
+    const user = fetchFromStorage('user')
     const [sdm, setSdm] = React.useState(true);
     const [value, setValue] = React.useState('');
     const [notification, setNotification] = React.useState(false);
@@ -127,7 +131,8 @@ const ProfileSection = () => {
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const handleLogout = async () => {
-        console.error('Logout');
+        sessionStorage.clear()
+        navigate('/')
     };
 
     const handleToggle = () => {
@@ -198,9 +203,9 @@ const ProfileSection = () => {
                                     <CardContent className={classes.cardContent}>
                                         <Grid container direction="column" spacing={0}>
                                             <Grid item className={classes.flex}>
-                                                <Typography variant="h4">Good Morning,</Typography>
+                                                <Typography variant="h4">Hey, </Typography>
                                                 <Typography component="span" variant="h4" className={classes.name}>
-                                                    Joshua Santiago
+                                                    {user.firstName} {user.lastName}
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
@@ -208,11 +213,19 @@ const ProfileSection = () => {
                                             </Grid>
                                         </Grid>
                                         <Divider />
-                                        <PerfectScrollbar className={classes.ScrollHeight}>
-                                            <UpgradePlanCard />
-                                            <Divider />
-                                            <Divider />
+                                        {/* <PerfectScrollbar className={classes.ScrollHeight}> */}
                                             <List component="nav" className={classes.navContainer}>
+                                                <ListItemButton
+                                                    className={classes.listItem}
+                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
+                                                    selected={selectedIndex === 4}
+                                                    onClick={handleLogout}
+                                                >
+                                                    <ListItemIcon>
+                                                        <AccountCircle stroke={1.5} size="1.3rem" />
+                                                    </ListItemIcon>
+                                                    <ListItemText primary={<Typography variant="body2">Profile</Typography>} />
+                                                </ListItemButton>
                                                 <ListItemButton
                                                     className={classes.listItem}
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
@@ -225,7 +238,7 @@ const ProfileSection = () => {
                                                     <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
                                                 </ListItemButton>
                                             </List>
-                                        </PerfectScrollbar>
+                                        {/* </PerfectScrollbar> */}
                                     </CardContent>
                                 </MainCard>
                             </ClickAwayListener>

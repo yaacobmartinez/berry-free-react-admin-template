@@ -106,11 +106,6 @@ const FirebaseRegister = ({ ...others }) => {
         setStrength(temp);
         setLevel(strengthColor(temp));
     };
-
-    useEffect(() => {
-        changePassword('123456');
-    }, []);
-
     const [message, setMessage] = React.useState(false);
     return (
         <>
@@ -148,7 +143,7 @@ const FirebaseRegister = ({ ...others }) => {
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (scriptedRef.current) {
-                            const {data} = await axios.post(`http://localhost:5001/register`, values)
+                            const {data} = await axios.post(`/register`, values)
                             setMessage(data.message)
                             setStatus({ success: true });
                             setSubmitting(false);

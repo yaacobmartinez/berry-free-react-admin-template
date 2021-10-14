@@ -143,15 +143,17 @@ const FirebaseLogin = (props, { ...others }) => {
                     try {
                         if (scriptedRef.current) {
                             console.log(values);
-                            const {data} = await axios.post('http://localhost:5001/auth', values)
+                            const {data} = await axios.post('/auth', values)
                             if (!data.success) {
                                 setMessage(data.message)
+                            }else{
+                                console.log(data)
+                                saveToStorage('token', data.token)
+                                saveToStorage('user', data.user)
+                                navigate('/dashboard/default')
+                                setStatus({ success: true });
+                                setSubmitting(false);
                             }
-                            saveToStorage('token', data.token)
-                            saveToStorage('user', data.user)
-                            navigate('/dashboard/default')
-                            setStatus({ success: true });
-                            setSubmitting(false);
                         }
                     } catch (err) {
                         console.error(err);
