@@ -128,6 +128,7 @@ const ProfileSection = () => {
     const [notification, setNotification] = React.useState(false);
     const [selectedIndex] = React.useState(1);
 
+    
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
     const handleLogout = async () => {
