@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'
+import axios from '../../../../utils/axios'
 // material-ui
 import { makeStyles } from '@material-ui/styles';
 import {
