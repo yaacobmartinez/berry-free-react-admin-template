@@ -143,7 +143,7 @@ const FirebaseRegister = ({ ...others }) => {
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (scriptedRef.current) {
-                            const {data} = await axios.post(`/register`, values)
+                            const {data} = await axios.post(`/register`, {...values, provisioned: true})
                             setMessage(data.message)
                             setStatus({ success: true });
                             setSubmitting(false);
