@@ -4,7 +4,7 @@
  */
 export default function themeTypography(theme) {
     return {
-        fontFamily: theme.customization.fontFamily,
+        fontFamily: `Poppins`,
         h6: {
             fontWeight: 500,
             color: theme.heading,

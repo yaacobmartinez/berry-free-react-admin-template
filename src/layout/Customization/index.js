@@ -67,7 +67,7 @@ const Customization = () => {
             break;
         case `'Roboto', sans-serif`:
         default:
-            initialFont = 'Roboto';
+            initialFont = 'Poppins';
             break;
     }
 

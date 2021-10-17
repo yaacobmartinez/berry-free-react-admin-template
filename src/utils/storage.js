@@ -13,3 +13,4 @@ export const saveToStorage = (key, value) => {
     sessionStorage.clear();
   };
   
+export const getFullName = (params) => `${params.getValue(params.id, 'firstName') || ''} ${ params.getValue(params.id, 'lastName') || '' }`;

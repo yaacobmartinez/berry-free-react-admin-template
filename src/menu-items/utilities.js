@@ -18,19 +18,26 @@ const utilities = {
     type: 'group',
     children: [
         {
-            id: 'util-typography',
+            id: 'products',
             title: 'Products',
             type: 'item',
-            url: '/utils/util-typography',
+            url: '/dashboard/products',
             breadcrumbs: false
         },
         {
-            id: 'util-color',
+            id: 'monitoring',
             title: 'Monitoring',
             type: 'item',
-            url: '/utils/util-color',
+            url: '/dashboard/monitoring',
             breadcrumbs: false
-        }
+        },
+        {
+            id: 'user-management',
+            title: 'User Management',
+            type: 'item',
+            url: '/dashboard/users',
+            breadcrumbs: false
+        },
     ]
 };
 
