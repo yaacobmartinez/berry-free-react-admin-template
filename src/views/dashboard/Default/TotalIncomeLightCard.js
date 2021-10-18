@@ -81,7 +81,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                                     mb: 0.45
                                 }}
                                 className={classes.padding}
-                                primary={<Typography variant="h4">$203k</Typography>}
+                                primary={<Typography variant="h4">₱0.00</Typography>}
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
                                         Total Income

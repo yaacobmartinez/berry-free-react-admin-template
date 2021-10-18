@@ -88,7 +88,7 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                                 }}
                                 primary={
                                     <Typography variant="h4" className={classes.primary}>
-                                        $203k
+                                        ₱0.00
                                     </Typography>
                                 }
                                 secondary={

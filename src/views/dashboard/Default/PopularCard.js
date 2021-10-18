@@ -95,14 +95,14 @@ const PopularCard = ({ isLoading }) => {
                                         <Grid container alignItems="center" justifyContent="space-between">
                                             <Grid item>
                                                 <Typography variant="subtitle1" color="inherit">
-                                                    Bajaj Finery
+                                                    ---
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                            $1839.00
+                                                        ₱0.00
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
@@ -116,7 +116,7 @@ const PopularCard = ({ isLoading }) => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant="subtitle2" className={classes.successDark}>
-                                            10% Profit
+                                            0% Profit
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -126,14 +126,14 @@ const PopularCard = ({ isLoading }) => {
                                         <Grid container alignItems="center" justifyContent="space-between">
                                             <Grid item>
                                                 <Typography variant="subtitle1" color="inherit">
-                                                    TTML
+                                                    ---
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                            $100.00
+                                                        ₱0.00
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
@@ -147,7 +147,7 @@ const PopularCard = ({ isLoading }) => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant="subtitle2" className={classes.errorDark}>
-                                            10% loss
+                                            0% loss
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -157,14 +157,14 @@ const PopularCard = ({ isLoading }) => {
                                         <Grid container alignItems="center" justifyContent="space-between">
                                             <Grid item>
                                                 <Typography variant="subtitle1" color="inherit">
-                                                    Reliance
+                                                    ---
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                            $200.00
+                                                        ₱.00
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
@@ -178,7 +178,7 @@ const PopularCard = ({ isLoading }) => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant="subtitle2" className={classes.successDark}>
-                                            10% Profit
+                                            0% Profit
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -188,14 +188,14 @@ const PopularCard = ({ isLoading }) => {
                                         <Grid container alignItems="center" justifyContent="space-between">
                                             <Grid item>
                                                 <Typography variant="subtitle1" color="inherit">
-                                                    TTML
+                                                    ---
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                            $189.00
+                                                        ₱0.00
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
@@ -209,7 +209,7 @@ const PopularCard = ({ isLoading }) => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant="subtitle2" className={classes.errorDark}>
-                                            10% loss
+                                            0% loss
                                         </Typography>
                                     </Grid>
                                 </Grid>
@@ -219,14 +219,14 @@ const PopularCard = ({ isLoading }) => {
                                         <Grid container alignItems="center" justifyContent="space-between">
                                             <Grid item>
                                                 <Typography variant="subtitle1" color="inherit">
-                                                    Stolon
+                                                    ---
                                                 </Typography>
                                             </Grid>
                                             <Grid item>
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                            $189.00
+                                                        ₱0.00
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
@@ -240,7 +240,7 @@ const PopularCard = ({ isLoading }) => {
                                     </Grid>
                                     <Grid item>
                                         <Typography variant="subtitle2" className={classes.errorDark}>
-                                            10% loss
+                                            0% loss
                                         </Typography>
                                     </Grid>
                                 </Grid>

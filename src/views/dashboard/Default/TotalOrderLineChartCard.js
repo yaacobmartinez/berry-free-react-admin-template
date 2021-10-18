@@ -127,9 +127,9 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                     <Grid container alignItems="center">
                                         <Grid item>
                                             {timeValue ? (
-                                                <Typography className={classes.cardHeading}>$108</Typography>
+                                                <Typography className={classes.cardHeading}>₱0.00</Typography>
                                             ) : (
-                                                <Typography className={classes.cardHeading}>$961</Typography>
+                                                <Typography className={classes.cardHeading}>₱0.00</Typography>
                                             )}
                                         </Grid>
                                         <Grid item>
