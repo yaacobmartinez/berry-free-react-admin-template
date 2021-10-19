@@ -11,7 +11,7 @@ import MainCard from 'ui-component/cards/MainCard';
 const Monitoring = () => (
     <MainCard title="Monitoring">
         <Typography variant="body2">
-    MONITORING TABLE PURPOSES ITO!
+            For Monitoring... will update soon
         </Typography>
     </MainCard>
 );

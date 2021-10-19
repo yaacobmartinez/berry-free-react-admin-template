@@ -39,14 +39,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-// ===========================|| MAIN NAVBAR / HEADER ||=========================== //
 
 const Header = ({ handleLeftDrawerToggle }) => {
     const classes = useStyles();
 
     return (
         <>
-            {/* logo & toggler button */}
             <div className={classes.boxContainer}>
                 <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
                     <LogoSection />
@@ -57,14 +55,9 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     </Avatar>
                 </ButtonBase>
             </div>
-
-            {/* header search */}
             <SearchSection theme="light" />
             <div className={classes.grow} />
             <div className={classes.grow} />
-
-            {/* notification & profile */}
-            {/* <NotificationSection /> */}
             <ProfileSection />
         </>
     );

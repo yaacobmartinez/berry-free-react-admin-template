@@ -10,7 +10,7 @@ import themeTypography from './typography';
 
 /**
  * Represent theme style and structure as per Material-UI
- * @param {JsonObject} customization customization parameter object
+ * @param {JsonObject} customization
  */
 export function theme(customization) {
     const color = colors;
