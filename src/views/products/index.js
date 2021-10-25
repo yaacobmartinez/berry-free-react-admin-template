@@ -1,18 +1,23 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable react/destructuring-assignment */
 import React, { useCallback, useEffect, useState } from 'react';
 
 // material-ui
-import { Button, Chip, Dialog, DialogActions, Box, DialogContent, DialogTitle, FormControl, FormHelperText, IconButton, InputLabel, OutlinedInput, TextField, Typography } from '@material-ui/core';
+import { Button, Chip, Dialog, DialogActions, Box, DialogContent, DialogTitle, FormControl, FormHelperText, IconButton, InputLabel, OutlinedInput, TextField, Typography, SwipeableDrawer, Grid, Select, MenuItem, Popover } from '@material-ui/core';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import axiosInstance from 'utils/axios';
-import { Add } from '@material-ui/icons';
+import { Add, Close, CloudDownload, Save } from '@material-ui/icons';
 import {DataGrid, GridToolbar} from '@mui/x-data-grid'
-import { Formik } from 'formik';
+import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import useScriptRef from 'hooks/useScriptRef';
 import { makeStyles } from '@material-ui/styles';
 import AnimateButton from 'ui-component/extended/AnimateButton';
+import { useDropzone } from 'react-dropzone';
+import {useNavigate} from 'react-router'
 /* eslint no-underscore-dangle: 0 */
 /* eslint no-undef: "error" */
 //= =============================|| SAMPLE PAGE ||==============================//
@@ -55,10 +60,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Products = () => {
+    const navigate = useNavigate()
     const [categories, setCategories] = useState([])
     const [products, setProducts] = useState([])
     const [newCategory, setNewCategory] = useState(false)
     const [newProduct, setNewProduct] = useState(false)
+    const [pageSize, setPageSize] = React.useState(10);
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [selectedPopUp, setSelectedPopUp] = useState(null)
     const getCategories = useCallback( async () => {
             const {data} = await axiosInstance.get(`/categories`)
             setCategories(data.categories)
@@ -86,7 +95,8 @@ const Products = () => {
             <NewCategoryDialog open={newCategory} onClose={() => setNewCategory(false)} onChange={getCategories} />
         )}
         {newProduct && (
-            <NewProductDialog open={newProduct} onClose={() => setNewProduct(false)} onChange={getProducts} />
+            <NewProductDrawer open={newProduct} onClose={() => setNewProduct(false)} onChange={getProducts} categories={categories}/>
+            // <NewProductDialog open={newProduct} onClose={() => setNewProduct(false)} onChange={getProducts} />
         )}
         <div 
             style={{
@@ -100,18 +110,20 @@ const Products = () => {
                 {categories?.map((category, index) => (
                     <Chip size="small" label={category.name} key={index} style={{margin: 5}} />
                 ))}
+                <Chip size="small" label="Add Category" onClick={() => setNewCategory(true)} color="primary" icon={<Add />} style={{margin: 5}}/>
             </div>
-            <IconButton size="small" onClick={() => setNewCategory(true)}>
-                <Add fontSize="9"/>
-            </IconButton>
         </div>
-        <Button color="primary" startIcon={<Add />} onClick={() => setNewProduct(true)}>Add New Product</Button>
+        <ProductPopover anchorEl={anchorEl} onClose={() => setAnchorEl(null)} product={selectedPopUp} />
+        <Button color="primary" variant="contained" startIcon={<Add />} onClick={() => setNewProduct(true)}>Add New Product</Button>
         {
             products && (
                 <DataGrid
+                    style={{marginTop: 20}}
                     rows={products}
                     autoHeight 
                     rowHeight={35}
+                    disableSelectionOnClick
+                    onRowClick ={(e) => navigate(`/dashboard/product/${e.id}`)}
                     getRowId={(row) => row._id}
                     components={{
                         Toolbar: GridToolbar,
@@ -120,30 +132,361 @@ const Products = () => {
                         { 
                             field: 'name', 
                             headerName: 'Product',
-                            flex: 1,
                             minWidth: 250,
                             sortable: true,
-                            renderCell:({id, value}) => <Typography variant="body2" color="black">{value}</Typography>
+                            renderCell:(row) => (
+                            <div>
+                                <Typography variant="body2" color="black"
+                                    style={{cursor: 'pointer'}}
+                                    component="h2"
+                                    onMouseEnter={(e) => {setAnchorEl(e.currentTarget); setSelectedPopUp(row.row); }}
+                                >
+                                    {row.value}
+                                </Typography>
+                            </div>)
                                 
                         },
                         { 
                             field: 'stocks', 
                             headerName: 'Stocks',
                             flex: 1,
-                            minWidth: 350, 
+                            minWidth: 100, 
+                        },
+                        { 
+                            field: 'price', 
+                            headerName: 'Price',
+                            flex: 1,
+                            minWidth: 80,
+                            sortable: true,
+                            renderCell:(row) => (
+                            <div>
+                                <Typography variant="body2">
+                                    PHP {(parseFloat(row.row.initialPrice) +  parseFloat(row.row.markupPrice)).toFixed(2)}
+                                </Typography>
+                            </div>)
+                                
                         },
                         { 
                             field: 'category', 
                             headerName: 'Category',
-                            flex: 1,
                             minWidth: 350, 
                         },
                     ]}
+                    rowsPerPageOptions={[5, 10, 20]}
+                    pagination
+                    pageSize={pageSize}
+                    onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
                 />
-            )
-        }
+                )
+            }
+            
     </MainCard>
 )};
+
+const ProductPopover = ({anchorEl, onClose, product}) => {
+    const [loading, setLoading] = useState(true)
+    const [image, setImage] = useState(null)
+    const productPrice = parseFloat(product?.initialPrice) + parseFloat(product?.markupPrice)
+    useEffect(() => {
+        setImage(null)
+        setLoading(true)
+        if (product?.media.length > 0) {
+            const getImageLink = async () => {
+                const {data} = await axiosInstance.get(`/products/image?path=${product.media[0]}`)
+                console.log(data)
+                setImage(data.link)
+                setLoading(false)
+            }
+            getImageLink()
+        }
+    },[product?.media])
+    return (
+        <Popover
+            open={Boolean(anchorEl)}
+            anchorEl={anchorEl}
+            anchorOrigin={{
+                vertical: 'center',
+                horizontal: 'right',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+            onClose={onClose}
+            disableRestoreFocus
+            >
+                <div
+                    style={{height: 250, width: 200, padding: 5,}}
+                >
+
+                    <img src={loading ? '/images/no-image.png' : image} alt="product_image" 
+                        style={{
+                            height: 190,
+                            width: 190,
+                            objectFit: 'cover', 
+                            borderRadius: 5
+                        }}/>
+                    <Typography variant="caption" color="primary">{product?.name}</Typography><br/>
+                    <Typography variant="caption" color="primary" style={{fontWeight: 'bold'}}>PHP{Number.isNaN(productPrice) ? `0.00`: productPrice.toFixed(2)}</Typography>
+                    <IconButton onClick={onClose} size="small" color="primary" style={{background: '#f45b69', color: '#fff', position: 'absolute', top: 0, right: 0}}><Close fontSize="small"/></IconButton>
+                </div>
+        </Popover>
+    )
+}
+
+const NewProductDrawer = ({open, onClose, onChange, categories}) => {
+    const classes = useStyles()
+    const [imageError, setImageError] = useState(false)
+    const [files, setFiles] = useState([]);
+    const {getRootProps, getInputProps} = useDropzone({
+        accept: 'image/*',
+        onDrop: acceptedFiles => {
+        setFiles(acceptedFiles.map(file => Object.assign(file, {
+            preview: URL.createObjectURL(file)
+        })));
+        }
+    });
+    const {errors, handleChange, values, handleBlur, handleSubmit } = useFormik({
+        initialValues: {
+            name: '',
+            description: '', 
+            category: '',
+            initialPrice: 0,
+            markupPrice: 0,
+            stocks: 0
+        }, 
+        validationSchema: Yup.object({
+            name: Yup.string()
+                .required('We need to know the product name.'),
+            description: Yup.string(),
+            category: Yup.string()
+                .required('What is the category of the product.'),
+            initialPrice: Yup.number()
+                .typeError('Price must be a number')
+                .required('How much was the suppliers price?'),
+            markupPrice: Yup.number()
+                .typeError('Price must be a number')
+                .required('How much do we charge for the product?'),
+            stocks: Yup.number()
+                .typeError('Stock must be a number')
+                .required('How much stock do we have?'),
+        }), 
+        onSubmit: async (values, {resetForm}) => {
+            if (files.length < 1) {
+                return setImageError(true)
+            }
+            setImageError(false)
+            const form = new FormData()
+            form.append("media", files[0]);
+            form.append('name', values.name)
+            form.append('description', values.description)
+            form.append('category', values.category)
+            form.append('initialPrice', values.initialPrice)
+            form.append('markupPrice', values.markupPrice)
+            form.append('stocks', values.stocks)
+
+            const {data} = await axiosInstance.post(`/products`, form, {
+                headers: {
+                 'Content-Type': `multipart/form-data`,
+                }
+               })
+            onChange()
+            return onClose()
+        }
+    })
+    
+    
+    const thumbsContainer = {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        marginTop: 16
+      };
+      
+      const thumb = {
+        display: 'inline-flex',
+        borderRadius: 2,
+        border: '1px solid #eaeaea',
+        marginBottom: 8,
+        marginRight: 8,
+        width: 100,
+        height: 100,
+        padding: 4,
+        boxSizing: 'border-box'
+      };
+      
+      const thumbInner = {
+        display: 'flex',
+        minWidth: 0,
+        overflow: 'hidden'
+      };
+      
+      const img = {
+        display: 'block',
+        width: 'auto',
+        height: '100%'
+      };
+    const thumbs = files.map((file) => (
+        <div style={thumb} key={file.name}>
+          <div style={thumbInner}>
+            <img
+              alt="thumb_image"
+              src={file.preview}
+              style={img}
+            />
+          </div>
+            <Close 
+                fontSize="small"
+                onClick={() => {
+                    console.log(files)
+                    setFiles(files.filter(a => a.preview !== file.preview))
+                }}
+            />
+        </div>
+      ));
+
+    useEffect(() => () => {
+        // Make sure to revoke the data uris to avoid memory leaks
+        files.forEach(file => URL.revokeObjectURL(file.preview));
+    }, [files]);
+    return (
+        <SwipeableDrawer anchor="right" open={open} onClose={onClose}>
+            <Box sx={{minWidth: 320, width: 500, padding: 2, marginTop: 8}} component="form" onSubmit={handleSubmit}>
+                <Typography variant="h4">Add New Product</Typography>
+                <Grid container spacing={2} sx={{mt: 1}}>
+                    <Grid item xs={12}>
+                        <TextField 
+                            fullWidth 
+                            size="small" 
+                            name="name" 
+                            label="Product Name" 
+                            value={values.name}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={Boolean(errors.name)}
+                            helperText={errors.name}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField 
+                            multiline
+                            rows={3}
+                            fullWidth 
+                            size="small" 
+                            name="description" 
+                            label="Description" 
+                            value={values.description}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={Boolean(errors.description)}
+                            helperText={errors.description}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <FormControl fullWidth>
+                            <InputLabel shrink>Category</InputLabel>
+                            <Select
+                                size="small"
+                                value={values.category}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                name="category"
+                                label="Category"
+                                error={errors.category}
+                            >
+                                {categories.map((el, index) => (
+                                    <MenuItem key={index} value={el._id}>{el.name}</MenuItem>
+                                ))}
+                            </Select>
+                            {errors.category && (
+                                <FormHelperText error>{errors.category}</FormHelperText>
+                            )}
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <InputLabel shrink>Product Images</InputLabel>
+                        {imageError && (
+                            <Typography variant="subtitle2">Please upload Product Images</Typography>
+                        )}
+                        <section style={{border: imageError ? `solid 1px red` : `solid 1px #eee`, padding: 10, textAlign: 'center'}}>
+                            <div {...getRootProps({className: 'dropzone'})}>
+                                <input {...getInputProps()} />
+                                <p>Drag and drop some files here, or click to select files</p>
+                                <CloudDownload style={{fontSize: 50}} />
+                            </div>
+                            <aside style={thumbsContainer}>
+                                {thumbs}
+                            </aside>
+                        </section>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField 
+                            fullWidth 
+                            size="small" 
+                            name="initialPrice" 
+                            label="Initial Price" 
+                            value={values.initialPrice}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={Boolean(errors.initialPrice)}
+                            helperText={errors.initialPrice}
+                            InputProps={{
+                                endAdornment: `PHP`
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                        <TextField 
+                            required
+                            fullWidth 
+                            size="small" 
+                            name="markupPrice" 
+                            label="Mark Up Price" 
+                            value={values.markupPrice}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={Boolean(errors.markupPrice)}
+                            helperText={errors.markupPrice}
+                            InputProps={{
+                                endAdornment: `PHP`
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField 
+                            fullWidth 
+                            size="small" 
+                            name="markupPrice" 
+                            label="Final Price" 
+                            value={parseFloat(values.markupPrice) + parseFloat(values.initialPrice)}
+                            InputProps={{
+                                readOnly: true, 
+                                endAdornment: `PHP`
+                            }}
+                        />
+                    </Grid>
+                    <Grid item xs={12}>
+                        <TextField 
+                            fullWidth 
+                            size="small" 
+                            name="stocks" 
+                            label="Stocks" 
+                            value={values.stocks}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            error={Boolean(errors.stocks)}
+                            helperText={errors.stocks}
+                        />
+                    </Grid>
+                </Grid>
+                <Box sx={{position: 'fixed', top: 0, right: 0, width: 500, padding: 2, display: 'flex', justifyContent: 'space-between', background: '#fff', borderBottom: 'solid 1px #eee'}}>
+                    <Button onClick={onClose} size="small">Cancel</Button>
+                    <Button variant="contained" size="small" color='primary' type="submit" startIcon={<Save />}>Save Product</Button>
+                </Box>
+            </Box>
+        </SwipeableDrawer>
+    )
+}
 
 const NewProductDialog = ({open, onClose, onChange}) => {
     const classes = useStyles();
@@ -352,7 +695,7 @@ const NewCategoryDialog = ({open, onClose, onChange}) => {
                 <Button variant="contained" size="small" type="submit" disabled={loading} color="primary">Save</Button>
             </DialogActions>
         </Dialog>
-    )
+            )
 }
 
 export default Products;
