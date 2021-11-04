@@ -3,19 +3,21 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-underscore-dangle */
-import { FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography, Avatar, Button, Backdrop, CircularProgress, Snackbar } from '@material-ui/core'
+import { FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography, Avatar, Button, Backdrop, CircularProgress, Snackbar, Dialog, DialogContent } from '@material-ui/core'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import MainCard from 'ui-component/cards/MainCard'
 import axiosInstance from 'utils/axios'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Add, Close, Save } from '@material-ui/icons'
+import { Add, Close, Print, QrCode, Save } from '@material-ui/icons'
+import QRCode from 'qrcode.react'
 
 function Product() {
     const {id} = useParams()
     const [product, setProduct] = useState(null)
     const [categories, setCategories] = useState(null)
+    
     const getProduct = useCallback( async() => {
         const {data} = await axiosInstance.get(`/products/${id}`)
         setProduct(data.product)
@@ -35,6 +37,7 @@ function Product() {
 }
 
 const ProductForm = ({initialValues, categories}) => {
+    const [generateQR, setGenerateQR] = useState(false)
     const [mainImage, setMainImage] = useState(initialValues.media[0])
     const [images, setImages] = useState(initialValues.media)
     const {errors, handleChange, values, handleBlur, handleSubmit, isSubmitting, status, setStatus } = useFormik({
@@ -255,6 +258,12 @@ const ProductForm = ({initialValues, categories}) => {
                 />
             </Grid>
             <Grid item xs={12} textAlign="right">
+                <Button variant="outlined" size="small" color="primary" startIcon={<QrCode />} style={{marginRight: 20}} onClick={() =>setGenerateQR(true)}>
+                    Generate QR Code
+                </Button>
+                {generateQR && (
+                    <QRCodeModal id={initialValues._id} open={generateQR} onClose={() => setGenerateQR(false)} />
+                )}
                 <Button type="submit" variant="contained" size="small" color="primary" startIcon={<Save />}>
                     Save Changes
                 </Button>
@@ -263,4 +272,17 @@ const ProductForm = ({initialValues, categories}) => {
     )
 }
 
+const QRCodeModal = ({id, open, onClose}) => {
+    console.log(id)
+    return (
+        <Dialog open={open} onClose={onClose} maxWidth="sm">
+            <DialogContent>
+                <QRCode value={id} size={256}/><br/>
+                {/* <Button variant="outlined" fullWidth size="small" color="primary" startIcon={<Print />}>
+                    Print
+                </Button> */}
+            </DialogContent>
+        </Dialog>
+    )
+}
 export default Product
