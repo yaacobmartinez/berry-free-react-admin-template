@@ -10,7 +10,7 @@ import MainCard from 'ui-component/cards/MainCard'
 import axiosInstance from 'utils/axios'
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Add, Close, Print, QrCode, Save } from '@material-ui/icons'
+import { Add, Close, History, Print, QrCode, Save } from '@material-ui/icons'
 import QRCode from 'qrcode.react'
 
 function Product() {
@@ -258,6 +258,9 @@ const ProductForm = ({initialValues, categories}) => {
                 />
             </Grid>
             <Grid item xs={12} textAlign="right">
+                <Button variant="outlined" size="small" color="primary" startIcon={<History />} style={{marginRight: 20}} >
+                    Archive Product
+                </Button>
                 <Button variant="outlined" size="small" color="primary" startIcon={<QrCode />} style={{marginRight: 20}} onClick={() =>setGenerateQR(true)}>
                     Generate QR Code
                 </Button>

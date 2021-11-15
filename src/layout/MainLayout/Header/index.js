@@ -1,9 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, Box, ButtonBase } from '@material-ui/core';
+import { Avatar, Box, Button, ButtonBase, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, SwipeableDrawer, Typography } from '@material-ui/core';
 
 // project imports
 import LogoSection from '../LogoSection';
@@ -13,6 +14,9 @@ import NotificationSection from './NotificationSection';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
+import { Close, CloudDownload, QrCodeScanner } from '@material-ui/icons';
+import QrReader from 'react-qr-reader';
+import axiosInstance from 'utils/axios';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({ handleLeftDrawerToggle }) => {
     const classes = useStyles();
 
+    const [showReader, setShowReader] = useState(false)
     return (
         <>
             <div className={classes.boxContainer}>
@@ -56,6 +61,14 @@ const Header = ({ handleLeftDrawerToggle }) => {
                 </ButtonBase>
             </div>
             <SearchSection theme="light" />
+            <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden', marginLeft: 2 }}>
+                <Avatar variant="rounded" className={classes.headerAvatar} onClick={() =>setShowReader(true)} color="inherit">
+                    <QrCodeScanner stroke={1.5} size="1.3rem" />
+                </Avatar>
+            </ButtonBase>
+            {showReader && (
+                <QRReader open={showReader} onClose={() => setShowReader(false)} onOpen={() => setShowReader(true)} />
+            )}
             <div className={classes.grow} />
             <div className={classes.grow} />
             <ProfileSection />
@@ -63,8 +76,100 @@ const Header = ({ handleLeftDrawerToggle }) => {
     );
 };
 
+const QRReader = ({open, onClose, onOpen}) => {
+
+    const [order, setOrder] = React.useState(null)
+    const getOrder = React.useCallback(async(id) =>{
+        if(id) {
+            const {data} = await axiosInstance.get(`/orders/${id}`)
+            console.log(data)
+            setOrder(data.order)
+        }
+    },[])
+    const handleScan = (id) => {
+        getOrder(id)
+    }
+    useEffect(() => {
+        setOrder(null)
+    }, [])
+    const handleMarkAsPaid = async (id) => {
+        if (id) {
+            const {data} = await axiosInstance.post(`/orders/markaspaid/${id}`)
+            console.log(data)
+            onClose()
+        }
+    }
+    return (
+        <SwipeableDrawer
+            anchor="bottom"
+            open={open}
+            onClose={onClose}
+            onOpen={onOpen}
+            PaperProps={{
+                style: {
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                }
+            }}
+        >
+            <div style={{height: '90vh', padding: '5vw'}}>
+                {!order ? (
+                    <>
+                        <div style={{padding: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                            <Typography variant="h6">Scan Customer QRCode</Typography>
+                            <IconButton onClick={onClose}><Close /></IconButton>
+                        </div>
+                        <div>
+                            <QrReader
+                                delay={300}
+                                onError={(err) => console.log(err)}
+                                onScan={handleScan}
+                                style={{ width: "100%" }}
+                                />
+                        </div>
+                    </>
+                ): (
+                    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
+                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%'}}> 
+                            <Typography variant="h6" style={{fontSize: 30}}>Total</Typography>
+                            <Typography variant="h6" style={{fontSize: 30}}>₱ {order.total.toFixed(2)}</Typography>
+                        </div> 
+                        <Typography variant="h6" style={{fontSize: 16, width: '100%', textAlign: 'left'}}>Items in cart</Typography>
+                        <List style={{width: '100%',padding: 0}}>
+                            {order?.cart?.map((item, index) => (
+                                <ListItem key={index} style={{background: '#fff', marginBottom: 10, borderRadius: 10, padding: 0}}>
+                                    <ListItemButton dense>
+                                        <ListItemAvatar>
+                                            <Avatar variant="rounded" src={item.media[0]}>
+                                                <CloudDownload />
+                                            </Avatar>
+                                        </ListItemAvatar>
+                                        <ListItemText 
+                                            primary={item.name}
+                                            secondary={
+                                                <Typography variant="caption" color="GrayText">
+                                                    Php{(parseFloat(item.initialPrice) + parseFloat(item.markupPrice)).toFixed(2)} x {item.quantity} pc/s
+                                                </Typography>
+                                            }
+                                            />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                        <Button variant="contained" fullWidth onClick={() => handleMarkAsPaid(order?._id)}>Mark as Paid</Button>
+                    </div>
+                )}
+            </div>
+        </SwipeableDrawer>
+    )
+}
 Header.propTypes = {
     handleLeftDrawerToggle: PropTypes.func
 };
 
+QRReader.propTypes = {
+    open: PropTypes.bool,
+    onClose: PropTypes.func,
+    onOpen: PropTypes.func
+}
 export default Header;

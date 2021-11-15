@@ -9,7 +9,7 @@ import { Button, Chip, Dialog, DialogActions, Box, DialogContent, DialogTitle, F
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import axiosInstance from 'utils/axios';
-import { Add, Close, CloudDownload, Save } from '@material-ui/icons';
+import { Add, Close, CloudDownload, History, Save } from '@material-ui/icons';
 import {DataGrid, GridToolbar} from '@mui/x-data-grid'
 import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -114,7 +114,8 @@ const Products = () => {
             </div>
         </div>
         <ProductPopover anchorEl={anchorEl} onClose={() => setAnchorEl(null)} product={selectedPopUp} />
-        <Button color="primary" variant="contained" startIcon={<Add />} onClick={() => setNewProduct(true)}>Add New Product</Button>
+        <Button color="primary" variant="contained" startIcon={<Add />} onClick={() => setNewProduct(true)} style={{marginRight: 20}}>Add New Product</Button>
+        <Button color="primary" variant="outlined" startIcon={<History />}>Show Archived Products Only</Button>
         {
             products && (
                 <DataGrid
