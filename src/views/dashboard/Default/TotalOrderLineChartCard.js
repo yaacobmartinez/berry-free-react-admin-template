@@ -17,7 +17,7 @@ import ChartDataYear from './chart-data/total-order-year-line-chart';
 
 // assets
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -97,7 +97,7 @@ const useStyles = makeStyles((theme) => ({
 
 // ===========================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||=========================== //
 
-const TotalOrderLineChartCard = ({ isLoading }) => {
+const TotalOrderLineChartCard = ({ isLoading, amount }) => {
     const classes = useStyles();
 
     const [timeValue, setTimeValue] = React.useState(false);
@@ -123,27 +123,27 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                         </Grid>
                         <Grid item sx={{ mb: 0.75 }}>
                             <Grid container alignItems="center">
-                                <Grid item xs={6}>
+                                <Grid item xs={12}>
                                     <Grid container alignItems="center">
                                         <Grid item>
                                             {timeValue ? (
                                                 <Typography className={classes.cardHeading}>₱0.00</Typography>
                                             ) : (
-                                                <Typography className={classes.cardHeading}>₱0.00</Typography>
+                                                <Typography className={classes.cardHeading}>₱{parseFloat(amount).toLocaleString(undefined, {
+                                                    minimumFractionDigits: 2,
+                                                    maximumFractionDigits: 2
+                                                  })}</Typography>
                                             )}
                                         </Grid>
                                         <Grid item>
                                             <Avatar className={classes.avatarCircle}>
-                                                <ArrowDownwardIcon fontSize="inherit" className={classes.circleIcon} />
+                                                <ArrowUpwardIcon fontSize="inherit" className={classes.circleIcon} />
                                             </Avatar>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <Typography className={classes.subHeading}>Total Order</Typography>
+                                            <Typography className={classes.subHeading}>Total Orders Today</Typography>
                                         </Grid>
                                     </Grid>
-                                </Grid>
-                                <Grid item xs={6}>
-                                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
                                 </Grid>
                             </Grid>
                         </Grid>

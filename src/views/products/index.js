@@ -68,6 +68,7 @@ const Products = () => {
     const [pageSize, setPageSize] = React.useState(10);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [selectedPopUp, setSelectedPopUp] = useState(null)
+    const [archivedOnly, setArchivedOnly] = useState(false)
     const getCategories = useCallback( async () => {
             const {data} = await axiosInstance.get(`/categories`)
             setCategories(data.categories)
@@ -115,12 +116,14 @@ const Products = () => {
         </div>
         <ProductPopover anchorEl={anchorEl} onClose={() => setAnchorEl(null)} product={selectedPopUp} />
         <Button color="primary" variant="contained" startIcon={<Add />} onClick={() => setNewProduct(true)} style={{marginRight: 20}}>Add New Product</Button>
-        <Button color="primary" variant="outlined" startIcon={<History />}>Show Archived Products Only</Button>
+        <Button color="primary" variant="outlined" startIcon={<History />} onClick={() => setArchivedOnly(!archivedOnly)}>
+            Show {archivedOnly ? `All Products` : `Archived Products Only`}
+        </Button>
         {
             products && (
                 <DataGrid
                     style={{marginTop: 20}}
-                    rows={products}
+                    rows={products.filter(p => archivedOnly ? p.status !== "Active" : p.status === "Active")}
                     autoHeight 
                     rowHeight={35}
                     disableSelectionOnClick

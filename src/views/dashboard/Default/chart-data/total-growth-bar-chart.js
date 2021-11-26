@@ -67,16 +67,8 @@ const chartData = {
     },
     series: [
         {
-            name: 'Investment',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        },
-        {
-            name: 'Loss',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        },
-        {
             name: 'Profit',
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            data: [24, 35, 26, 32, 1556, 88]
         },
         {
             name: 'Maintenance',

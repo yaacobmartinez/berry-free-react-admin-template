@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
 
 // ===========================|| DASHBOARD - TOTAL INCOME LIGHT CARD ||=========================== //
 
-const TotalIncomeLightCard = ({ isLoading }) => {
+const TotalIncomeLightCard = ({ isLoading, amount }) => {
     const classes = useStyles();
 
     return (
@@ -81,10 +81,14 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                                     mb: 0.45
                                 }}
                                 className={classes.padding}
-                                primary={<Typography variant="h4">₱0.00</Typography>}
+                                primary={<Typography variant="h4">₱{parseFloat(amount).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                  })}
+                                </Typography>}
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
-                                        Total Income
+                                        Overall Total Income
                                     </Typography>
                                 }
                             />

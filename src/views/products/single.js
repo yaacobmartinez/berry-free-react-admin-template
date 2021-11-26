@@ -3,7 +3,8 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable no-underscore-dangle */
-import { FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography, Avatar, Button, Backdrop, CircularProgress, Snackbar, Dialog, DialogContent } from '@material-ui/core'
+import { FormControl, FormHelperText, Grid, IconButton, InputLabel, MenuItem, Select, TextField, Typography, 
+        Avatar, Button, Backdrop, CircularProgress, Snackbar, Dialog, DialogContent, DialogActions, DialogTitle, DialogContentText } from '@material-ui/core'
 import React, { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import MainCard from 'ui-component/cards/MainCard'
@@ -40,6 +41,7 @@ const ProductForm = ({initialValues, categories}) => {
     const [generateQR, setGenerateQR] = useState(false)
     const [mainImage, setMainImage] = useState(initialValues.media[0])
     const [images, setImages] = useState(initialValues.media)
+    const [openArchive, setOpenArchive] = useState(false) 
     const {errors, handleChange, values, handleBlur, handleSubmit, isSubmitting, status, setStatus } = useFormik({
         initialValues, 
         validationSchema: Yup.object({
@@ -258,9 +260,12 @@ const ProductForm = ({initialValues, categories}) => {
                 />
             </Grid>
             <Grid item xs={12} textAlign="right">
-                <Button variant="outlined" size="small" color="primary" startIcon={<History />} style={{marginRight: 20}} >
-                    Archive Product
+                <Button variant="outlined" size="small" color="primary" startIcon={<History />} style={{marginRight: 20}} 
+                    onClick={() => setOpenArchive(true)}
+                >
+                    {initialValues.status === "Active" ? `Archive` : `Restore`} Product
                 </Button>
+                <ArchiveModal product={initialValues} open={openArchive} onClose={() => setOpenArchive(false)} />
                 <Button variant="outlined" size="small" color="primary" startIcon={<QrCode />} style={{marginRight: 20}} onClick={() =>setGenerateQR(true)}>
                     Generate QR Code
                 </Button>
@@ -272,6 +277,30 @@ const ProductForm = ({initialValues, categories}) => {
                 </Button>
             </Grid>
         </Grid>
+    )
+}
+
+const ArchiveModal = ({product, open, onClose}) => {
+    console.log(product)
+    const isActive = product.status === "Active"
+    const handleConfirm = async () => {
+        const {data} = await axiosInstance.post(`/products/archive/${product._id}`, {status : product.status})
+        console.log(data)
+        window.location.reload("")
+    }
+    return (
+        <Dialog open={open} onClose={onClose} maxWidth="sm">
+            <DialogTitle>{isActive ? `Archive` : `Restore`} Product?</DialogTitle>
+            <DialogContent> 
+                <DialogContentText>
+                    Are you sure you want to {isActive ? `archive`: `restore`} this product?
+                </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button variant="outlined" color="primary" size="small" onClick={onClose}>No</Button>
+                <Button variant="contained" color="error" size="small" onClick={handleConfirm}>Confirm</Button>
+            </DialogActions>
+        </Dialog>
     )
 }
 
@@ -288,4 +317,5 @@ const QRCodeModal = ({id, open, onClose}) => {
         </Dialog>
     )
 }
+
 export default Product

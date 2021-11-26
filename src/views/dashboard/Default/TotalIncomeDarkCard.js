@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 
 // ===========================|| DASHBOARD - TOTAL INCOME DARK CARD ||=========================== //
 
-const TotalIncomeDarkCard = ({ isLoading }) => {
+const TotalIncomeDarkCard = ({ isLoading, amount }) => {
     const classes = useStyles();
 
     return (
@@ -88,12 +88,15 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                                 }}
                                 primary={
                                     <Typography variant="h4" className={classes.primary}>
-                                        ₱0.00
+                                        ₱{parseFloat(amount).toLocaleString(undefined, {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                  })}
                                     </Typography>
                                 }
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
-                                        Total Incomes
+                                        Overall Total Earnings
                                     </Typography>
                                 }
                             />
