@@ -63,7 +63,7 @@ const UpgradePlanCard = () => {
             <CardContent>
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
-                        <Typography variant="h4" color="white">Supplier Contact Info</Typography>
+                        <Typography variant="h4" color="white">Dairyman Ice cream</Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="subtitle2" className={classes.tagLine}>
