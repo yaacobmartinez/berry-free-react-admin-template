@@ -31,7 +31,7 @@ useEffect(() => {
 },[getOrders])
     return (
         <MainCard title="Monitoring">
-            <OrderDialog open={Boolean(viewOrder)} onClose={() => setViewOrder(null)} order={viewOrder} />
+            <OrderDialog open={Boolean(viewOrder)} onClose={() => setViewOrder(null)} order={viewOrder} onChange={getOrders}/>
             {removeOrder && (
                 <RemoveOrderDialog open={Boolean(removeOrder)} onClose={() =>setRemoveOrder(null)} id={removeOrder} onChange={getOrders} />
             )}
@@ -145,7 +145,16 @@ const RemoveOrderDialog = ({open, onClose, id, onChange}) => {
         </Dialog>
     )
 }
-const OrderDialog = ({open, onClose, order}) => (
+const OrderDialog = ({open, onClose, order, onChange}) => {
+    console.log(order)
+    const handleTagAsPaid = async () => {
+        console.log(order) 
+        const {data} = await axiosInstance.post(`/orders/markaspaid/${order._id}`)
+        console.log(data)
+        onChange()
+        onClose()
+    }
+    return (
         <Dialog maxWidth="sm" fullWidth open={open} onClose={onClose}>
             <DialogTitle style={{fontSize: 15}}>Transaction Details</DialogTitle>
             <DialogContent style={{padding: "0px 20px 20px 20px"}}>
@@ -176,8 +185,10 @@ const OrderDialog = ({open, onClose, order}) => (
                 </div>
             </DialogContent>
             <DialogActions>
+                <Button variant="contained" size="small" color="primary" onClick={handleTagAsPaid}>Tag as Paid</Button>
                 <Button variant="outlined" size="small" onClick={onClose}>Close</Button>
             </DialogActions>
         </Dialog>
-);
+)
+}
 export default Monitoring;
