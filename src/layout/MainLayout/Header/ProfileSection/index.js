@@ -216,17 +216,7 @@ const ProfileSection = () => {
                                         <Divider />
                                         {/* <PerfectScrollbar className={classes.ScrollHeight}> */}
                                             <List component="nav" className={classes.navContainer}>
-                                                <ListItemButton
-                                                    className={classes.listItem}
-                                                    sx={{ borderRadius: `${customization.borderRadius}px` }}
-                                                    selected={selectedIndex === 4}
-                                                    onClick={handleLogout}
-                                                >
-                                                    <ListItemIcon>
-                                                        <AccountCircle stroke={1.5} size="1.3rem" />
-                                                    </ListItemIcon>
-                                                    <ListItemText primary={<Typography variant="body2">Profile</Typography>} />
-                                                </ListItemButton>
+
                                                 <ListItemButton
                                                     className={classes.listItem}
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
