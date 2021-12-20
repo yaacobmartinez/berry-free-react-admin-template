@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 //= ==========================|| DASHBOARD DEFAULT - BAJAJ AREA CHART CARD ||===========================//
 
-const BajajAreaChartCard = () => {
+const BajajAreaChartCard = (props) => {
+    const {item} = props
     const classes = useStyles();
     const theme = useTheme();
 
@@ -56,19 +57,19 @@ const BajajAreaChartCard = () => {
                         <Grid container alignItems="center" justifyContent="space-between">
                             <Grid item>
                                 <Typography variant="subtitle1" sx={{ color: theme.palette.secondary.dark }}>
-                                    ---
+                                    {item?.name}
                                 </Typography>
                             </Grid>
                             <Grid item>
                                 <Typography variant="h4" sx={{ color: theme.palette.grey[800] }}>
-                                     ₱0.00
+                                     ₱{(parseFloat(item?.initialPrice) + parseFloat(item?.markupPrice)).toFixed(2)}
                                 </Typography>
                             </Grid>
                         </Grid>
                     </Grid>
                     <Grid item xs={12}>
                         <Typography variant="subtitle2" sx={{ color: theme.palette.grey[800] }}>
-                            0% Profit
+                            {item?.totalOrders} Total Orders
                         </Typography>
                     </Grid>
                 </Grid>

@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 // material-ui
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from '@material-ui/core';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -10,7 +10,7 @@ import axiosInstance from 'utils/axios';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router';
 import Avatar from 'ui-component/extended/Avatar';
-import { Celebration, CloudDownload } from '@material-ui/icons';
+import { Celebration, CloudDownload, RemoveCircle } from '@material-ui/icons';
 
 //= =============================|| SAMPLE PAGE ||==============================//
 
@@ -19,6 +19,7 @@ const Monitoring = () => {
     const [orders, setOrders] = useState([])
     const [pageSize, setPageSize] = React.useState(10);
     const [viewOrder, setViewOrder] = React.useState(null);
+    const [removeOrder, setRemoveOrder] = React.useState(null)
     const getOrders = useCallback( async () => {
         const {data} = await axiosInstance.get(`/orders`)
         setOrders(data.orders)
@@ -30,6 +31,9 @@ useEffect(() => {
     return (
         <MainCard title="Monitoring">
             <OrderDialog open={Boolean(viewOrder)} onClose={() => setViewOrder(null)} order={viewOrder} />
+            {removeOrder && (
+                <RemoveOrderDialog open={Boolean(removeOrder)} onClose={() =>setRemoveOrder(null)} id={removeOrder} onChange={getOrders} />
+            )}
             {
             orders && (
                 <DataGrid
@@ -38,7 +42,7 @@ useEffect(() => {
                     autoHeight 
                     rowHeight={35}
                     disableSelectionOnClick
-                    onRowClick ={({row}) => setViewOrder(row)}
+                    // onRowClick ={({row}) => setViewOrder(row)}
                     getRowId={(row) => row._id}
                     components={{
                         Toolbar: GridToolbar,
@@ -47,12 +51,12 @@ useEffect(() => {
                         { 
                             field: '_id', 
                             headerName: 'OrderID',
-                            minWidth: 150,
+                            minWidth: 300,
                             sortable: true,
-                            renderCell:({value}) => (
+                            renderCell:(row) => (
                             <div>
-                                <Typography variant="caption" component="h2">
-                                    {value}
+                                <Typography variant="caption" component="h2" onClick={() => setViewOrder(row.row)}>
+                                    {row.row._id} 
                                 </Typography>
                             </div>)
                                 
@@ -60,7 +64,6 @@ useEffect(() => {
                         { 
                             field: 'total', 
                             headerName: 'Amount',
-                            flex: 1,
                             minWidth: 150,
                             sortable: true,
                             renderCell:({value}) => (
@@ -89,12 +92,24 @@ useEffect(() => {
                             field: 'date_created', 
                             headerName: 'Transaction Date',
                             sortable: true,
-                            minWidth: 350,
+                            minWidth: 250,
                             renderCell:({value}) => (
                                 <div>
                                     <Typography variant="caption">
                                         {new Date(value).toDateString()}
                                     </Typography>
+                                </div>
+                            ) 
+                        },
+                        { 
+                            field: '__v', 
+                            headerName: 'Actions',
+                            minWidth: 200,
+                            renderCell:(row) => (
+                                <div>
+                                    <IconButton size="small" color="secondary" onClick={() => setRemoveOrder(row.id)}>
+                                        <RemoveCircle />
+                                    </IconButton>
                                 </div>
                             ) 
                         },
@@ -109,7 +124,26 @@ useEffect(() => {
         </MainCard>
     )
 };
-
+const RemoveOrderDialog = ({open, onClose, id, onChange}) => {
+    const handleRemove = async () => {
+        console.log(id)
+        const {data} = await axiosInstance.delete(`/orders/${id}`)
+        onChange()
+        onClose()
+    }
+    return (
+        <Dialog maxWidth="xs" fullWidth open={open} onClose={onClose}>
+            <DialogTitle style={{fontSize: 15}}>Remove Order</DialogTitle>
+            <DialogContent style={{padding: "0px 20px 20px 20px"}}>
+                Are you sure you want to remove this order? <br/>(Order #{id})
+            </DialogContent>
+            <DialogActions>
+                <Button variant="outlined" size="small" onClick={onClose}>Close</Button>
+                <Button variant="contained" size="small" color="primary" onClick={handleRemove}>Remove</Button>
+            </DialogActions>
+        </Dialog>
+    )
+}
 const OrderDialog = ({open, onClose, order}) => (
         <Dialog maxWidth="sm" fullWidth open={open} onClose={onClose}>
             <DialogTitle style={{fontSize: 15}}>Transaction Details</DialogTitle>

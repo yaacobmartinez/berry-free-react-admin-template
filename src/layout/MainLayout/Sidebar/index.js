@@ -65,7 +65,7 @@ const Sidebar = ({ drawerOpen, drawerToggle, window }) => {
             <BrowserView>
                 <PerfectScrollbar component="div" className={classes.ScrollHeight}>
                     <MenuList />
-                    {/* <MenuCard /> */}
+                    <MenuCard />
                 </PerfectScrollbar>
             </BrowserView>
             <MobileView>

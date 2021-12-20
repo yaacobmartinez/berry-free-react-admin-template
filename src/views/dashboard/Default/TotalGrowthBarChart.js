@@ -15,6 +15,8 @@ import { gridSpacing } from 'store/constant';
 
 // chart data
 import chartData from './chart-data/total-growth-bar-chart';
+import axiosInstance from 'utils/axios';
+import _ from 'lodash';
 
 const status = [
     {
@@ -34,9 +36,89 @@ const status = [
 // ===========================|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||=========================== //
 
 const TotalGrowthBarChart = ({ isLoading }) => {
-    const [value, setValue] = React.useState('today');
+    const [value, setValue] = React.useState('year');
+    const month = new Date().getMonth()
+    const today = new Date()
+    const [totals, setTotals] = React.useState({
+        today: 0, 
+        month: 2, 
+        year: 1
+    })
+    const [earnings, setEarnings] = React.useState({
+        today: 0, 
+        month: 2, 
+        year: 1
+    })
+    const [base, setBase] = React.useState({})
+    const [chartdetails, setChartDetails] = React.useState({...chartData, series: [
+        {
+            name: 'Total Earnings',
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        },
+        {
+            name: 'Total Income',
+            data: [0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        }
+    ]})
+    const getChartData = React.useCallback(async () => {
+        const {data} = await axiosInstance.get(`/orders/charts`)
+        setChartDetails({...chartData, series:data.series})
+        setBase(data.series)
+        setTotals(data.totals)
+        setEarnings(data.earnings)
+    }, [])
     const theme = useTheme();
 
+    const handleMenuClick = ({target}) => {
+        setValue(target.value)
+        if (target.value === 'today') {
+            setChartDetails({...chartdetails, series: [
+                {
+                    name: 'Total Earnings',
+                    data: Array.from(new Array(12)).map((i,index) => {
+                        if (new Date().getMonth() === index) {
+                            return earnings.today
+                        }
+                        return 0
+                    })
+                }, 
+                {
+                    name: 'Total Income',
+                    data: Array.from(new Array(12)).map((i,index) => {
+                        if (new Date().getMonth() === index) {
+                            return totals.today
+                        }
+                        return 0
+                    })
+                }
+            ]})
+        }
+        if (target.value === 'month') {
+            setChartDetails({...chartdetails, series: [
+                {
+                    name: 'Total Earnings',
+                    data: Array.from(new Array(12)).map((i,index) => {
+                        if (new Date().getMonth() === index) {
+                            return earnings.month
+                        }
+                        return 0
+                    })
+                }, 
+                {
+                    name: 'Total Income',
+                    data: Array.from(new Array(12)).map((i,index) => {
+                        if (new Date().getMonth() === index) {
+                            return totals.month
+                        }
+                        return 0
+                    })
+                }
+            ]})
+        }
+        if (target.value === 'year') {
+            setChartDetails({...chartdetails, series: base})
+        }
+    }
     const { primary } = theme.palette.text;
     const grey200 = theme.palette.grey[200];
 
@@ -46,6 +128,12 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const secondaryLight = theme.palette.secondary.light;
     const grey500 = theme.palette.grey[500];
 
+    
+    React.useEffect(() => {
+        // set chart data here
+        getChartData()
+        // console.log('fetch chart data here')
+    }, [getChartData])
     React.useEffect(() => {
         const newChartData = {
             ...chartData.options,
@@ -98,7 +186,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                                             <Typography variant="subtitle2">Total Growth</Typography>
                                         </Grid>
                                         <Grid item>
-                                            <Typography variant="h3">₱0.00</Typography>
+                                            <Typography variant="h3">₱{parseFloat(totals[value]).toFixed(2)}</Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -107,7 +195,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                                         id="standard-select-currency"
                                         select
                                         value={value}
-                                        onChange={(e) => setValue(e.target.value)}
+                                        onChange={handleMenuClick}
                                     >
                                         {status.map((option) => (
                                             <MenuItem key={option.value} value={option.value}>
@@ -119,7 +207,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                             </Grid>
                         </Grid>
                         <Grid item xs={12}>
-                            <Chart {...chartData} />
+                            <Chart {...chartdetails} />
                         </Grid>
                     </Grid>
                 </MainCard>

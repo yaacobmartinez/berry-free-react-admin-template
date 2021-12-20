@@ -26,7 +26,7 @@ const chartData = {
             },
             y: {
                 title: {
-                    formatter: () => 'Ticket '
+                    formatter: () => 'Orders '
                 }
             },
             marker: {
@@ -36,7 +36,7 @@ const chartData = {
     },
     series: [
         {
-            data: [0, 0, 0, 0, 0, 0, 0]
+            data: [1, 2, 3, 2, 4, 8, 3]
         }
     ]
 };

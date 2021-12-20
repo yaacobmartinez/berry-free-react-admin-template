@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -16,6 +16,8 @@ import ChevronRightOutlinedIcon from '@material-ui/icons/ChevronRightOutlined';
 import MoreHorizOutlinedIcon from '@material-ui/icons/MoreHorizOutlined';
 import KeyboardArrowUpOutlinedIcon from '@material-ui/icons/KeyboardArrowUpOutlined';
 import KeyboardArrowDownOutlinedIcon from '@material-ui/icons/KeyboardArrowDownOutlined';
+import axiosInstance from 'utils/axios';
+import _ from 'lodash';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +63,27 @@ const useStyles = makeStyles((theme) => ({
 const PopularCard = ({ isLoading }) => {
     const classes = useStyles();
 
+    const [stocks, setStocks] = React.useState([])
+    const getChartData = React.useCallback(async () => {
+        const {data} = await axiosInstance.get(`/orders/charts`)
+        const stockItems = _.chain(data.stocks.flat())
+        .groupBy("_id")
+        .toPairs()
+        .value()
+        const withQuantity = stockItems.map((item) => {
+            const orders = item[1]
+            const totalOrders = orders.reduce((previous, current) => previous + current.quantity ,0)
+            return {...orders[0], totalOrders}
+        })
+        console.log(withQuantity)
+        setStocks(withQuantity.sort((a, b) => b.totalOrders - a.totalOrders))
+    }, [])
+
+    React.useEffect(() => {
+        // set chart data here
+        getChartData()
+        // console.log('fetch chart data here')
+    }, [getChartData])
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = (event) => {
@@ -87,172 +110,55 @@ const PopularCard = ({ isLoading }) => {
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} sx={{ pt: '16px !important' }}>
-                                <BajajAreaChartCard />
+                                {stocks && (
+                                    <BajajAreaChartCard item={stocks[0]} />
+                                )}
                             </Grid>
                             <Grid item xs={12}>
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
-                                            <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    ---
-                                                </Typography>
-                                            </Grid>
+                                {stocks.slice(1).map((item, index) => (
+                                    <Fragment key={index}>
+                                        <Grid container direction="column">
                                             <Grid item>
                                                 <Grid container alignItems="center" justifyContent="space-between">
                                                     <Grid item>
                                                         <Typography variant="subtitle1" color="inherit">
-                                                        ₱0.00
+                                                            {item?.name}
                                                         </Typography>
                                                     </Grid>
                                                     <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarSuccess}>
-                                                            <KeyboardArrowUpOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
+                                                        <Grid container alignItems="center" justifyContent="space-between">
+                                                            <Grid item>
+                                                                <Typography variant="subtitle1" color="inherit">
+                                                                ₱{(parseFloat(item?.initialPrice) + parseFloat(item?.markupPrice)).toFixed(2)}
+                                                                </Typography>
+                                                            </Grid>
+                                                            {/* <Grid item>
+                                                                <Avatar variant="rounded" className={classes.avatarSuccess}>
+                                                                    <KeyboardArrowUpOutlinedIcon fontSize="small" color="inherit" />
+                                                                </Avatar>
+                                                            </Grid> */}
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.successDark}>
-                                            0% Profit
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Divider className={classes.divider} />
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
                                             <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    ---
+                                                <Typography variant="subtitle2" className={classes.successDark}>
+                                                    {item?.totalOrders} Total Orders
                                                 </Typography>
                                             </Grid>
-                                            <Grid item>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item>
-                                                        <Typography variant="subtitle1" color="inherit">
-                                                        ₱0.00
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarError}>
-                                                            <KeyboardArrowDownOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.errorDark}>
-                                            0% loss
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Divider className={classes.divider} />
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
-                                            <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    ---
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item>
-                                                        <Typography variant="subtitle1" color="inherit">
-                                                        ₱.00
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarSuccess}>
-                                                            <KeyboardArrowUpOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.successDark}>
-                                            0% Profit
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Divider className={classes.divider} />
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
-                                            <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    ---
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item>
-                                                        <Typography variant="subtitle1" color="inherit">
-                                                        ₱0.00
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarError}>
-                                                            <KeyboardArrowDownOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.errorDark}>
-                                            0% loss
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Divider className={classes.divider} />
-                                <Grid container direction="column">
-                                    <Grid item>
-                                        <Grid container alignItems="center" justifyContent="space-between">
-                                            <Grid item>
-                                                <Typography variant="subtitle1" color="inherit">
-                                                    ---
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item>
-                                                        <Typography variant="subtitle1" color="inherit">
-                                                        ₱0.00
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item>
-                                                        <Avatar variant="rounded" className={classes.avatarError}>
-                                                            <KeyboardArrowDownOutlinedIcon fontSize="small" color="inherit" />
-                                                        </Avatar>
-                                                    </Grid>
-                                                </Grid>
-                                            </Grid>
-                                        </Grid>
-                                    </Grid>
-                                    <Grid item>
-                                        <Typography variant="subtitle2" className={classes.errorDark}>
-                                            0% loss
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
+                                        <Divider className={classes.divider} />
+                                    </Fragment>
+                                ))}
                             </Grid>
                         </Grid>
                     </CardContent>
-                    <CardActions className={classes.cardAction}>
+                    {/* <CardActions className={classes.cardAction}>
                         <Button size="small" disableElevation>
                             View All
                             <ChevronRightOutlinedIcon />
                         </Button>
-                    </CardActions>
+                    </CardActions> */}
                 </MainCard>
             )}
         </>
