@@ -31,13 +31,13 @@ const utilities = {
             url: '/dashboard/monitoring',
             breadcrumbs: false
         },
-        {
-            id: 'user-management',
-            title: 'User Management',
-            type: 'item',
-            url: '/dashboard/users',
-            breadcrumbs: false
-        },
+        // {
+        //     id: 'user-management',
+        //     title: 'User Management',
+        //     type: 'item',
+        //     url: '/dashboard/users',
+        //     breadcrumbs: false
+        // },
     ]
 };
 
