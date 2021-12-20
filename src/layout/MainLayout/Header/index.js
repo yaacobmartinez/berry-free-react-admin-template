@@ -60,7 +60,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     </Avatar>
                 </ButtonBase>
             </div>
-            <SearchSection theme="light" />
+            {/* <SearchSection theme="light" /> */}
             <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden', marginLeft: 2 }}>
                 <Avatar variant="rounded" className={classes.headerAvatar} onClick={() =>setShowReader(true)} color="inherit">
                     <QrCodeScanner stroke={1.5} size="1.3rem" />
