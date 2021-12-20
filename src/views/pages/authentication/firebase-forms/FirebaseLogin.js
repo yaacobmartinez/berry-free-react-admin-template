@@ -238,15 +238,6 @@ const FirebaseLogin = (props, { ...others }) => {
                                 }
                                 label="Remember me"
                             />
-                            <Typography
-                                variant="subtitle1"
-                                component={Link}
-                                to="/pages/forgot-password/forgot-password3"
-                                color="secondary"
-                                sx={{ textDecoration: 'none' }}
-                            >
-                                Forgot Password?
-                            </Typography>
                         </Stack>
                         {errors.submit && (
                             <Box

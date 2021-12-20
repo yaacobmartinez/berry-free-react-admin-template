@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     tagLine: {
-        color: theme.palette.grey[900],
+        color: theme.palette.grey[100],
         opacity: 0.6
     },
     button: {
@@ -63,14 +63,14 @@ const UpgradePlanCard = () => {
             <CardContent>
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
-                        <Typography variant="h4">Welcome to MGJ E SHOP</Typography>
+                        <Typography variant="h4" color="white">Supplier Contact Info</Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="subtitle2" className={classes.tagLine}>
-                            Know More about MGJ E SHOP
+                        +639530721240
                         </Typography>
                     </Grid>
-                    <Grid item>
+                    {/* <Grid item>
                         <Stack direction="row">
                             <AnimateButton>
                                 <Button
@@ -84,7 +84,7 @@ const UpgradePlanCard = () => {
                                 </Button>
                             </AnimateButton>
                         </Stack>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </CardContent>
         </Card>

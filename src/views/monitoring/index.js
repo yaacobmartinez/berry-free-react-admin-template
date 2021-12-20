@@ -11,6 +11,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router';
 import Avatar from 'ui-component/extended/Avatar';
 import { Celebration, CloudDownload, RemoveCircle } from '@material-ui/icons';
+import { formatISO9075 } from 'date-fns';
 
 //= =============================|| SAMPLE PAGE ||==============================//
 
@@ -96,7 +97,7 @@ useEffect(() => {
                             renderCell:({value}) => (
                                 <div>
                                     <Typography variant="caption">
-                                        {new Date(value).toDateString()}
+                                        {formatISO9075(new Date(value))}
                                     </Typography>
                                 </div>
                             ) 
