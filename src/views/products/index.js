@@ -267,10 +267,12 @@ const NewProductDrawer = ({open, onClose, onChange, categories}) => {
                 .required('What is the category of the product.'),
             initialPrice: Yup.number()
                 .typeError('Price must be a number')
-                .required('How much was the suppliers price?'),
+                .required('How much was the suppliers price?')
+                .max(1000, 'Price must be below or equal to 1000').default(1),
             markupPrice: Yup.number()
                 .typeError('Price must be a number')
-                .required('How much do we charge for the product?'),
+                .required('How much do we charge for the product?')
+                .max(1000, 'Price must be below or equal to 1000').default(1),
             stocks: Yup.number()
                 .typeError('Stock must be a number')
                 .required('How much stock do we have?'),

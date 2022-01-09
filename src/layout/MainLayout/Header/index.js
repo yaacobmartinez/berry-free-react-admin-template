@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, Box, Button, ButtonBase, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, SwipeableDrawer, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, ButtonBase, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, SwipeableDrawer, Typography } from '@material-ui/core';
 
 // project imports
 import LogoSection from '../LogoSection';
@@ -156,6 +156,29 @@ const QRReader = ({open, onClose, onOpen}) => {
                                 </ListItem>
                             ))}
                         </List>
+                        <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%', paddingBottom:20}} >
+                            <Typography variant="body2">Item(s) : {order?.cart?.length}</Typography>
+                            <Typography variant="body2" style={{textAlign: 'right'}}>Qty(s) : {order?.cart?.reduce((prev, current) =>  parseFloat(prev) + parseFloat(current.quantity),0)}</Typography>
+                        </div>
+                        <Divider />
+                        <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%', paddingBottom:20}}>
+                            <Typography variant="body2">Subtotal</Typography>
+                            <Typography variant="body2" style={{textAlign: 'right'}}>{order.total.toFixed(2)}</Typography>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%'}}>
+                            <Typography variant="body2">Vatable Sales</Typography>
+                            <Typography variant="body2" style={{textAlign: 'right'}}>{parseFloat(parseFloat(order.total) / parseFloat(1.12)).toFixed(2)}</Typography>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%', paddingBottom: 20}}>
+                            <Typography variant="body2">Vat Amount</Typography>
+                            <Typography variant="body2" style={{textAlign: 'right'}}>{(parseFloat(order.total) - (parseFloat(parseFloat(order.total) / parseFloat(1.12)))).toFixed(2)}</Typography>
+                        </div>
+                        <Divider />
+                        <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%', paddingBottom: 20}}>
+                            <Typography variant="body2">Total</Typography>
+                            <Typography variant="body2" style={{textAlign: 'right'}}>₱ {order.total.toFixed(2)}</Typography>
+                        </div>
+
                         <Button variant="contained" fullWidth onClick={() => handleMarkAsPaid(order?._id)}>Mark as Paid</Button>
                     </div>
                 )}
