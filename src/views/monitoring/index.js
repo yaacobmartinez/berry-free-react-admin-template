@@ -2,7 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 // material-ui
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from '@material-ui/core';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, Typography } from '@material-ui/core';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -158,6 +158,20 @@ const OrderDialog = ({open, onClose, order, onChange}) => {
         <Dialog maxWidth="sm" fullWidth open={open} onClose={onClose}>
             <DialogTitle style={{fontSize: 15}}>Transaction Details</DialogTitle>
             <DialogContent style={{padding: "0px 20px 20px 20px"}}>
+                <Typography variant="body2" component="h6" gutterBottom style={{textAlign: 'center'}}>
+                    MGJ FOOD Product Trading
+                </Typography>
+                <Typography variant="body2" component="h6" gutterBottom style={{textAlign: 'center'}}>
+                    880 Cabiawan, Banga 1st 3004 Plaridel, Philippines
+                </Typography>
+                <Divider />
+                <Typography variant="body2" component="h6" gutterBottom style={{textAlign: 'center', marginTop: 10}}>
+                    **SALES INVOICE**
+                </Typography>
+                <Typography variant="caption" component="h6" gutterBottom style={{textAlign: 'center', marginTop: 10}} >
+                    INVOICE ID: {order?._id}
+                </Typography>
+                <Divider />
                 <List style={{width: '100%',padding: 0}}>
                     {order?.cart.map((item, index) => (
                         <ListItem key={index} style={{background: '#fff', marginBottom: 10, borderRadius: 10, padding: 0}}>
@@ -179,13 +193,31 @@ const OrderDialog = ({open, onClose, order, onChange}) => {
                         </ListItem>
                     ))}
                 </List>
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%', paddingBottom:10}} >
+                    <Typography variant="caption">Item(s) : {order?.cart?.length}</Typography>
+                    <Typography variant="caption" style={{textAlign: 'right'}}>Qty(s) : {order?.cart?.reduce((prev, current) =>  parseFloat(prev) + parseFloat(current.quantity),0)}</Typography>
+                </div>
+                <Divider />
+                <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%', paddingBottom:20, marginTop: 10,}}>
+                    <Typography variant="caption">SUBTOTAL</Typography>
+                    <Typography variant="caption" style={{textAlign: 'right'}}>{order?.total?.toFixed(2)}</Typography>
+                </div>
+                <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%'}}>
+                    <Typography variant="caption">Vatable Sales</Typography>
+                    <Typography variant="caption" style={{textAlign: 'right'}}>{parseFloat(parseFloat(order?.total) / parseFloat(1.12)).toFixed(2)}</Typography>
+                </div>
+                <div style={{display: 'flex', justifyContent: 'space-between' , alignItems: "center", width: '100%', paddingBottom: 20}}>
+                    <Typography variant="caption">Vat Amount</Typography>
+                    <Typography variant="caption" style={{textAlign: 'right'}}>{(parseFloat(order?.total) - (parseFloat(parseFloat(order?.total) / parseFloat(1.12)))).toFixed(2)}</Typography>
+                </div>
+                <Divider />
+                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 20}}>
                     <Typography variant="h2">Total</Typography>
                     <Typography variant="h2">Php {parseFloat(order?.total).toFixed(2)}</Typography>
                 </div>
             </DialogContent>
             <DialogActions>
-                <Button variant="contained" size="small" color="primary" onClick={handleTagAsPaid}>Tag as Paid</Button>
+                <Button variant="contained" disabled={order?.status === 1} size="small" color="primary" onClick={handleTagAsPaid}>Tag as Paid</Button>
                 <Button variant="outlined" size="small" onClick={onClose}>Close</Button>
             </DialogActions>
         </Dialog>
