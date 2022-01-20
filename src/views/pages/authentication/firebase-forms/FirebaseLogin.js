@@ -102,11 +102,11 @@ const FirebaseLogin = (props, { ...others }) => {
     return (
         <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
-                <Snackbar 
-                    open={Boolean(message)} 
-                    onClose={() =>setMessage(false)}
+                <Snackbar
+                    open={Boolean(message)}
+                    onClose={() => setMessage(false)}
                     autoHideDuration={6000} message={message}
-                    anchorOrigin={{vertical: 'top' , horizontal: 'right'}} />
+                    anchorOrigin={{ vertical: 'top', horizontal: 'right' }} />
                 <Grid item xs={12}>
                     <Box
                         sx={{
@@ -143,10 +143,10 @@ const FirebaseLogin = (props, { ...others }) => {
                     try {
                         if (scriptedRef.current) {
                             console.log(values);
-                            const {data} = await axios.post('/auth', values)
+                            const { data } = await axios.post('/auth', values)
                             if (!data.success) {
                                 setMessage(data.message)
-                            }else{
+                            } else {
                                 console.log(data)
                                 saveToStorage('token', data.token)
                                 saveToStorage('user', data.user)

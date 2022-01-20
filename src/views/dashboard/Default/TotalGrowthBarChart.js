@@ -56,7 +56,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         },
         {
-            name: 'Total Income',
+            name: 'Net Income',
             data: [0,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }
     ]})
@@ -83,7 +83,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                     })
                 }, 
                 {
-                    name: 'Total Income',
+                    name: 'Net Income',
                     data: Array.from(new Array(12)).map((i,index) => {
                         if (new Date().getMonth() === index) {
                             return totals.today

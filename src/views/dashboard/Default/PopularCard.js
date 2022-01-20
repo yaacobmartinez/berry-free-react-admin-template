@@ -65,15 +65,15 @@ const PopularCard = ({ isLoading }) => {
 
     const [stocks, setStocks] = React.useState([])
     const getChartData = React.useCallback(async () => {
-        const {data} = await axiosInstance.get(`/orders/charts`)
+        const { data } = await axiosInstance.get(`/orders/charts`)
         const stockItems = _.chain(data.stocks.flat())
-        .groupBy("_id")
-        .toPairs()
-        .value()
+            .groupBy("_id")
+            .toPairs()
+            .value()
         const withQuantity = stockItems.map((item) => {
             const orders = item[1]
-            const totalOrders = orders.reduce((previous, current) => previous + current.quantity ,0)
-            return {...orders[0], totalOrders}
+            const totalOrders = orders.reduce((previous, current) => previous + current.quantity, 0)
+            return { ...orders[0], totalOrders }
         })
         console.log(withQuantity)
         setStocks(withQuantity.sort((a, b) => b.totalOrders - a.totalOrders))
@@ -105,7 +105,7 @@ const PopularCard = ({ isLoading }) => {
                             <Grid item xs={12}>
                                 <Grid container alignContent="center" justifyContent="space-between">
                                     <Grid item>
-                                        <Typography variant="h4">Popular Stocks</Typography>
+                                        <Typography variant="h4">Best Seller</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>

@@ -117,7 +117,10 @@ const Products = () => {
         <ProductPopover anchorEl={anchorEl} onClose={() => setAnchorEl(null)} product={selectedPopUp} />
         <Button color="primary" variant="contained" startIcon={<Add />} onClick={() => setNewProduct(true)} style={{marginRight: 20}}>Add New Product</Button>
         <Button color="primary" variant="outlined" startIcon={<History />} onClick={() => setArchivedOnly(!archivedOnly)}>
-            Show {archivedOnly ? `All Products` : `Archived Products Only`}
+            Show {archivedOnly ? `All Products` : `All Products`}
+        </Button>
+        <Button color="secondary" variant="contained" startIcon={<History />} onClick={() => setArchivedOnly(!archivedOnly)}>
+            Show {archivedOnly ? `Archived Products Only` : `Archived Products Only`}
         </Button>
         {
             products && (
@@ -430,7 +433,7 @@ const NewProductDrawer = ({open, onClose, onChange, categories}) => {
                             fullWidth 
                             size="small" 
                             name="initialPrice" 
-                            label="Initial Price" 
+                            label="Starting Price" 
                             value={values.initialPrice}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -447,7 +450,7 @@ const NewProductDrawer = ({open, onClose, onChange, categories}) => {
                             fullWidth 
                             size="small" 
                             name="markupPrice" 
-                            label="Mark Up Price" 
+                            label="Markup Price" 
                             value={values.markupPrice}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -463,7 +466,7 @@ const NewProductDrawer = ({open, onClose, onChange, categories}) => {
                             fullWidth 
                             size="small" 
                             name="markupPrice" 
-                            label="Final Price" 
+                            label="Selling Price" 
                             value={parseFloat(values.markupPrice) + parseFloat(values.initialPrice)}
                             InputProps={{
                                 readOnly: true, 

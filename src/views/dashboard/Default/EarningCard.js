@@ -10,7 +10,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import EarningIcon from 'assets/images/icons/earning.svg';
+import Eyes from 'assets/images/icons/eyes.svg';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import GetAppTwoToneIcon from '@material-ui/icons/GetAppOutlined';
@@ -124,7 +124,7 @@ const EarningCard = ({ isLoading, amount }) => {
                             <Grid container justifyContent="space-between">
                                 <Grid item>
                                     <Avatar variant="rounded" className={classes.avatar}>
-                                        <img src={EarningIcon} alt="Notification" />
+                                        <img src={Eyes} alt="Notification" />
                                     </Avatar>
                                 </Grid>
                             </Grid>
@@ -145,7 +145,7 @@ const EarningCard = ({ isLoading, amount }) => {
                             </Grid>
                         </Grid>
                         <Grid item sx={{ mb: 1.25 }}>
-                            <Typography className={classes.subHeading}>Total Earnings Today</Typography>
+                            <Typography className={classes.subHeading}>Total Income Today</Typography>
                         </Grid>
                     </Grid>
                 </MainCard>

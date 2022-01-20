@@ -96,7 +96,7 @@ const TotalIncomeDarkCard = ({ isLoading, amount }) => {
                                 }
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
-                                        Overall Total Earnings
+                                        Gross Revenue
                                     </Typography>
                                 }
                             />

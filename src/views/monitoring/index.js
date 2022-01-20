@@ -10,7 +10,7 @@ import axiosInstance from 'utils/axios';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router';
 import Avatar from 'ui-component/extended/Avatar';
-import { Celebration, CloudDownload, RemoveCircle } from '@material-ui/icons';
+import { Celebration, CloudDownload, RemoveCircle,RemoveRedEye } from '@material-ui/icons';
 import { formatISO9075 } from 'date-fns';
 
 //= =============================|| SAMPLE PAGE ||==============================//
@@ -30,7 +30,7 @@ useEffect(() => {
     getOrders()
 },[getOrders])
     return (
-        <MainCard title="Monitoring">
+        <MainCard title="Customer Monitoring">
             <OrderDialog open={Boolean(viewOrder)} onClose={() => setViewOrder(null)} order={viewOrder} onChange={getOrders}/>
             {removeOrder && (
                 <RemoveOrderDialog open={Boolean(removeOrder)} onClose={() =>setRemoveOrder(null)} id={removeOrder} onChange={getOrders} />
@@ -111,7 +111,13 @@ useEffect(() => {
                                     <IconButton size="small" color="secondary" onClick={() => setRemoveOrder(row.id)}>
                                         <RemoveCircle />
                                     </IconButton>
+                                    <IconButton size="small" color="secondary" onClick={() => setViewOrder(row.row)}>
+                                        <RemoveRedEye />
+
+                                    </IconButton>
                                 </div>
+                               
+                                    
                             ) 
                         },
                     ]}
@@ -171,6 +177,7 @@ const OrderDialog = ({open, onClose, order, onChange}) => {
                 <Typography variant="caption" component="h6" gutterBottom style={{textAlign: 'center', marginTop: 10}} >
                     INVOICE ID: {order?._id}
                 </Typography>
+                
                 <Divider />
                 <List style={{width: '100%',padding: 0}}>
                     {order?.cart.map((item, index) => (

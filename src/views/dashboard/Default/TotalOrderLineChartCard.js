@@ -128,11 +128,12 @@ const TotalOrderLineChartCard = ({ isLoading, amount }) => {
                                         <Grid item>
                                             {timeValue ? (
                                                 <Typography className={classes.cardHeading}>₱0.00</Typography>
+
                                             ) : (
                                                 <Typography className={classes.cardHeading}>₱{parseFloat(amount).toLocaleString(undefined, {
                                                     minimumFractionDigits: 2,
                                                     maximumFractionDigits: 2
-                                                  })}</Typography>
+                                                })}</Typography>
                                             )}
                                         </Grid>
                                         <Grid item>

@@ -206,8 +206,8 @@ const ProductForm = ({initialValues, categories}) => {
                 <TextField 
                     fullWidth 
                     size="small" 
-                    name="initialPrice" 
-                    label="Initial Price" 
+                    name="startingprice" 
+                    label="Starting Price" 
                     value={values.initialPrice}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -224,7 +224,7 @@ const ProductForm = ({initialValues, categories}) => {
                     fullWidth 
                     size="small" 
                     name="markupPrice" 
-                    label="Mark Up Price" 
+                    label="Markup Price" 
                     value={values.markupPrice}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -239,8 +239,8 @@ const ProductForm = ({initialValues, categories}) => {
                 <TextField 
                     fullWidth 
                     size="small" 
-                    name="markupPrice" 
-                    label="Final Price" 
+                    name="sellingPrice" 
+                    label="Selling Price" 
                     value={parseFloat(values.markupPrice) + parseFloat(values.initialPrice)}
                     InputProps={{
                         readOnly: true, 

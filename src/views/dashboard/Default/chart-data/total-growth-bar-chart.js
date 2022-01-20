@@ -71,7 +71,7 @@ const chartData = {
             data: [24, 35, 26, 32, 1556, 88]
         },
         {
-            name: 'Total Income',
+            name: 'Net Income',
             data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         }
     ]

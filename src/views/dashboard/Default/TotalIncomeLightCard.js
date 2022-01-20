@@ -88,7 +88,7 @@ const TotalIncomeLightCard = ({ isLoading, amount }) => {
                                 </Typography>}
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
-                                        Overall Total Income
+                                        Net Income
                                     </Typography>
                                 }
                             />
