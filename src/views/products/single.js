@@ -42,6 +42,7 @@ const ProductForm = ({initialValues, categories}) => {
     const [mainImage, setMainImage] = useState(initialValues.media[0])
     const [images, setImages] = useState(initialValues.media)
     const [openArchive, setOpenArchive] = useState(false) 
+    const digitsOnly = (value) => /^\d*[.{1}\d*]\d*$/.test(value) || value.length === 0
     const {errors, handleChange, values, handleBlur, handleSubmit, isSubmitting, status, setStatus } = useFormik({
         initialValues, 
         validationSchema: Yup.object({
@@ -57,8 +58,9 @@ const ProductForm = ({initialValues, categories}) => {
                 .required('How much do we charge for the product?')
                 .max(1000, 'Price must be below or equal to 1000').default(1),
             stocks: Yup.number()
-                .typeError('Stock must be a number')
-                .required('How much stock do we have?'),
+                    .integer()
+                    .typeError('Stock must be a number')
+                    .required('How much stock do we have?'),
         }), 
         onSubmit: async (values, {setSubmitting, setStatus}) => {
             console.log(values)
@@ -90,6 +92,7 @@ const ProductForm = ({initialValues, categories}) => {
         })
         setImages([...images, data.image])
     }
+    const [symbolsArr] = useState(["e", "E", "+", "-", "."]);
     return (
         <Grid container spacing={2} sx={{mt: 1}} component="form" onSubmit={handleSubmit}>
             {status === 'success' && (
@@ -206,7 +209,7 @@ const ProductForm = ({initialValues, categories}) => {
                 <TextField 
                     fullWidth 
                     size="small" 
-                    name="startingprice" 
+                    name="initialPrice" 
                     label="Starting Price" 
                     value={values.initialPrice}
                     onChange={handleChange}
@@ -216,6 +219,7 @@ const ProductForm = ({initialValues, categories}) => {
                     InputProps={{
                         endAdornment: `PHP`
                     }}
+                    onKeyDown={e => e.key === "-" && e.preventDefault()}
                 />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -233,6 +237,7 @@ const ProductForm = ({initialValues, categories}) => {
                     InputProps={{
                         endAdornment: `PHP`
                     }}
+                    onKeyDown={e => e.key === "-" && e.preventDefault()}
                 />
             </Grid>
             <Grid item xs={12}>
@@ -250,6 +255,7 @@ const ProductForm = ({initialValues, categories}) => {
             </Grid>
             <Grid item xs={12}>
                 <TextField 
+                    type='number'
                     fullWidth 
                     size="small" 
                     name="stocks" 
@@ -259,6 +265,7 @@ const ProductForm = ({initialValues, categories}) => {
                     onBlur={handleBlur}
                     error={Boolean(errors.stocks)}
                     helperText={errors.stocks}
+                    onKeyDown={e => symbolsArr.includes(e.key) && e.preventDefault()}
                 />
             </Grid>
             <Grid item xs={12} textAlign="right">

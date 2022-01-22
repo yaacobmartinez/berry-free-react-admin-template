@@ -115,7 +115,7 @@ const PopularCard = ({ isLoading }) => {
                                 )}
                             </Grid>
                             <Grid item xs={12}>
-                                {stocks.slice(1).map((item, index) => (
+                                {stocks.slice(1, 5).map((item, index) => (
                                     <Fragment key={index}>
                                         <Grid container direction="column">
                                             <Grid item>

@@ -3,7 +3,7 @@ import React from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core';
+import { Avatar, Button, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -11,6 +11,7 @@ import TotalIncomeCard from 'ui-component/cards/Skeleton/TotalIncomeCard';
 
 // assets
 import TableChartOutlinedIcon from '@material-ui/icons/TableChartOutlined';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalIncomeDarkCard = ({ isLoading, amount }) => {
     const classes = useStyles();
+    const [showSales, setShowSales] = React.useState(false)
 
     return (
         <>
@@ -88,10 +90,14 @@ const TotalIncomeDarkCard = ({ isLoading, amount }) => {
                                 }}
                                 primary={
                                     <Typography variant="h4" className={classes.primary}>
-                                        ₱{parseFloat(amount).toLocaleString(undefined, {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                  })}
+                                        ₱{
+                                        showSales 
+                                            ? parseFloat(amount).toLocaleString(undefined, {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            }) 
+                                            : `*.**`
+                                        }
                                     </Typography>
                                 }
                                 secondary={
@@ -100,6 +106,9 @@ const TotalIncomeDarkCard = ({ isLoading, amount }) => {
                                     </Typography>
                                 }
                             />
+                        </ListItem>
+                        <ListItem>
+                            <Button size="small" variant="contained" color="info" startIcon={!showSales ? <Visibility /> : <VisibilityOff />} onClick={() => setShowSales(!showSales)}>{showSales ? `Hide` : `Show`} Sales</Button>
                         </ListItem>
                     </List>
                 </MainCard>

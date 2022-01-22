@@ -18,6 +18,7 @@ import ChartDataYear from './chart-data/total-order-year-line-chart';
 // assets
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -104,6 +105,7 @@ const TotalOrderLineChartCard = ({ isLoading, amount }) => {
     const handleChangeTime = (event, newValue) => {
         setTimeValue(newValue);
     };
+    const [showSales, setShowSales] = React.useState(false)
 
     return (
         <>
@@ -112,28 +114,23 @@ const TotalOrderLineChartCard = ({ isLoading, amount }) => {
             ) : (
                 <MainCard border={false} className={classes.card} contentClass={classes.content}>
                     <Grid container direction="column">
-                        <Grid item>
-                            <Grid container justifyContent="space-between">
-                                <Grid item>
-                                    <Avatar variant="rounded" className={classes.avatar}>
-                                        <LocalMallOutlinedIcon fontSize="inherit" />
-                                    </Avatar>
-                                </Grid>
-                            </Grid>
-                        </Grid>
                         <Grid item sx={{ mb: 0.75 }}>
                             <Grid container alignItems="center">
                                 <Grid item xs={12}>
                                     <Grid container alignItems="center">
-                                        <Grid item>
+                                        <Grid item sx={{mt: 7, mb: 2}}>
                                             {timeValue ? (
                                                 <Typography className={classes.cardHeading}>₱0.00</Typography>
 
                                             ) : (
-                                                <Typography className={classes.cardHeading}>₱{parseFloat(amount).toLocaleString(undefined, {
-                                                    minimumFractionDigits: 2,
-                                                    maximumFractionDigits: 2
-                                                })}</Typography>
+                                                <Typography className={classes.cardHeading}>₱{
+                                                    showSales 
+                                                        ? parseFloat(amount).toLocaleString(undefined, {
+                                                            minimumFractionDigits: 2,
+                                                            maximumFractionDigits: 2
+                                                        })
+                                                        : `*.**`
+                                                }</Typography>
                                             )}
                                         </Grid>
                                         <Grid item>
@@ -141,8 +138,11 @@ const TotalOrderLineChartCard = ({ isLoading, amount }) => {
                                                 <ArrowUpwardIcon fontSize="inherit" className={classes.circleIcon} />
                                             </Avatar>
                                         </Grid>
-                                        <Grid item xs={12}>
-                                            <Typography className={classes.subHeading}>Total Orders Today</Typography>
+                                        <Grid item xs={12} sx={{mb: 3}}>
+                                            <Typography className={classes.subHeading} gutterBottom>Total Orders Today</Typography>
+                                        </Grid>
+                                        <Grid item sx={{ mb: 2 }}>
+                                            <Button size="small" variant="contained" color="info" startIcon={!showSales ? <Visibility /> : <VisibilityOff />} onClick={() => setShowSales(!showSales)}>{showSales ? `Hide` : `Show`} Sales</Button>
                                         </Grid>
                                     </Grid>
                                 </Grid>

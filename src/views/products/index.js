@@ -116,11 +116,11 @@ const Products = () => {
         </div>
         <ProductPopover anchorEl={anchorEl} onClose={() => setAnchorEl(null)} product={selectedPopUp} />
         <Button color="primary" variant="contained" startIcon={<Add />} onClick={() => setNewProduct(true)} style={{marginRight: 20}}>Add New Product</Button>
-        <Button color="primary" variant="outlined" startIcon={<History />} onClick={() => setArchivedOnly(!archivedOnly)}>
-            Show {archivedOnly ? `All Products` : `All Products`}
+        <Button color="primary" variant="outlined" startIcon={<History />} onClick={() => setArchivedOnly(false)}>
+            Show  All Products 
         </Button>
-        <Button color="secondary" variant="contained" startIcon={<History />} onClick={() => setArchivedOnly(!archivedOnly)}>
-            Show {archivedOnly ? `Archived Products Only` : `Archived Products Only`}
+        <Button color="secondary" style={{marginLeft: 20}} variant="contained" startIcon={<History />} onClick={() => setArchivedOnly(true)}>
+            Show Archived Products Only
         </Button>
         {
             products && (
@@ -136,6 +136,19 @@ const Products = () => {
                         Toolbar: GridToolbar,
                     }}
                     columns={[
+                        { 
+                            field: '_id', 
+                            headerName: 'Product ID',
+                            minWidth: 250,
+                            sortable: true,
+                            renderCell:(row) => (
+                            <div>
+                                <Typography variant="body2" color="black">
+                                    {row.value}
+                                </Typography>
+                            </div>)
+                                
+                        },
                         { 
                             field: 'name', 
                             headerName: 'Product',

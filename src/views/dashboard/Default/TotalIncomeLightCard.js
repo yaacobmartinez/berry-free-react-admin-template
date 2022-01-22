@@ -3,7 +3,7 @@ import React from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core';
+import { Avatar, Button, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@material-ui/core';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -11,6 +11,7 @@ import TotalIncomeCard from 'ui-component/cards/Skeleton/TotalIncomeCard';
 
 // assets
 import StorefrontTwoToneIcon from '@material-ui/icons/StorefrontTwoTone';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -61,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 
 const TotalIncomeLightCard = ({ isLoading, amount }) => {
     const classes = useStyles();
+    const [showSales, setShowSales] = React.useState(false)
 
     return (
         <>
@@ -81,10 +83,13 @@ const TotalIncomeLightCard = ({ isLoading, amount }) => {
                                     mb: 0.45
                                 }}
                                 className={classes.padding}
-                                primary={<Typography variant="h4">₱{parseFloat(amount).toLocaleString(undefined, {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                  })}
+                                primary={<Typography variant="h4">₱{
+                                    showSales ? 
+                                        parseFloat(amount).toLocaleString(undefined, {
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    }) : `*.**`
+                                }
                                 </Typography>}
                                 secondary={
                                     <Typography variant="subtitle2" className={classes.secondary}>
@@ -92,6 +97,9 @@ const TotalIncomeLightCard = ({ isLoading, amount }) => {
                                     </Typography>
                                 }
                             />
+                        </ListItem>
+                        <ListItem>
+                            <Button size="small" variant="contained" color="info" startIcon={!showSales ? <Visibility /> : <VisibilityOff />} onClick={() => setShowSales(!showSales)}>{showSales ? `Hide` : `Show`} Sales</Button>
                         </ListItem>
                     </List>
                 </MainCard>

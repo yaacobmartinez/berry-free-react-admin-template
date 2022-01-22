@@ -3,7 +3,7 @@ import React from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, Grid, Menu, MenuItem, Typography } from '@material-ui/core';
+import { Avatar, Button, Grid, Menu, MenuItem, SpeedDial, SpeedDialIcon, Typography } from '@material-ui/core';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
@@ -17,6 +17,7 @@ import GetAppTwoToneIcon from '@material-ui/icons/GetAppOutlined';
 import FileCopyTwoToneIcon from '@material-ui/icons/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@material-ui/icons/PictureAsPdfOutlined';
 import ArchiveTwoToneIcon from '@material-ui/icons/ArchiveOutlined';
+import { Edit, Visibility, VisibilityOff } from '@material-ui/icons';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -113,6 +114,7 @@ const EarningCard = ({ isLoading, amount }) => {
         setAnchorEl(null);
     };
 
+    const [showSales, setShowSales] = React.useState(false)
     return (
         <>
             {isLoading ? (
@@ -121,21 +123,16 @@ const EarningCard = ({ isLoading, amount }) => {
                 <MainCard border={false} className={classes.card} contentClass={classes.content}>
                     <Grid container direction="column">
                         <Grid item>
-                            <Grid container justifyContent="space-between">
-                                <Grid item>
-                                    <Avatar variant="rounded" className={classes.avatar}>
-                                        <img src={Eyes} alt="Notification" />
-                                    </Avatar>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                        <Grid item>
                             <Grid container alignItems="center">
-                                <Grid item>
-                                    <Typography className={classes.cardHeading}>₱{parseFloat(amount).toLocaleString(undefined, {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2
-                                  })}</Typography>
+                                <Grid item sx={{mt: 7, mb: 2}}>
+                                    <Typography className={classes.cardHeading}>₱{
+                                    showSales 
+                                        ? parseFloat(amount).toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })
+                                        : `*.**`
+                                }</Typography>
                                 </Grid>
                                 <Grid item>
                                     <Avatar className={classes.avatarCircle}>
@@ -144,8 +141,11 @@ const EarningCard = ({ isLoading, amount }) => {
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <Grid item sx={{ mb: 1.25 }}>
+                        <Grid item xs={12} sx={{mb: 3}}>
                             <Typography className={classes.subHeading}>Total Income Today</Typography>
+                        </Grid>
+                        <Grid item sx={{ mb: 3 }}>
+                            <Button size="small" variant="contained" color="info" startIcon={!showSales ? <Visibility /> : <VisibilityOff />} onClick={() => setShowSales(!showSales)}>{showSales ? `Hide` : `Show`} Sales</Button>
                         </Grid>
                     </Grid>
                 </MainCard>

@@ -11,6 +11,8 @@ const Products = Loadable(lazy(() => import('views/products')));
 const Monitoring = Loadable(lazy(() => import('views/monitoring')));
 const UserManagement = Loadable(lazy(() => import('views/user-management')));
 const Product = Loadable(lazy(() => import('views/products/single')));
+const ChangePassword = Loadable(lazy(() => import('views/pages/ChangePassword')));
+
 
 // ===========================|| MAIN ROUTING ||=========================== //
 
@@ -50,7 +52,6 @@ const MainRoutes = {
             path: '/income',
             element: <SamplePage />
         },
-
     ]
 };
 

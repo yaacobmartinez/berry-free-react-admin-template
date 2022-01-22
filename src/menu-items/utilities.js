@@ -26,7 +26,7 @@ const utilities = {
         },
         {
             id: 'monitoring',
-            title: 'Customer Monitoring',
+            title: 'Sales Monitoring',
             type: 'item',
             url: '/dashboard/monitoring',
             breadcrumbs: false

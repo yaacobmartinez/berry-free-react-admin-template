@@ -11,7 +11,7 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { useNavigate } from 'react-router';
 import Avatar from 'ui-component/extended/Avatar';
 import { Celebration, CloudDownload, RemoveCircle, RemoveRedEye } from '@material-ui/icons';
-import { formatISO9075 } from 'date-fns';
+import { format, formatISO9075 } from 'date-fns';
 
 //= =============================|| SAMPLE PAGE ||==============================//
 
@@ -30,7 +30,7 @@ const Monitoring = () => {
         getOrders()
     }, [getOrders])
     return (
-        <MainCard title="Customer Monitoring">
+        <MainCard title="Sales Monitoring">
             <OrderDialog open={Boolean(viewOrder)} onClose={() => setViewOrder(null)} order={viewOrder} onChange={getOrders} />
             {removeOrder && (
                 <RemoveOrderDialog open={Boolean(removeOrder)} onClose={() => setRemoveOrder(null)} id={removeOrder} onChange={getOrders} />
@@ -94,10 +94,26 @@ const Monitoring = () => {
                                 headerName: 'Transaction Date',
                                 sortable: true,
                                 minWidth: 250,
-                                renderCell: ({ value }) => (
+                                type: 'date',
+                                valueFormatter: (params) => format(new Date(params.value), "yyyy-MM-dd"),
+                                valueGetter: (params) => new Date(params.value),
+                                /* renderCell: ({ value }) => (
                                     <div>
                                         <Typography variant="caption">
-                                            {formatISO9075(new Date(value))}
+                                            {format(new Date(value), "yyyy-MM-dd")}
+                                        </Typography>
+                                    </div>
+                                ) */
+                            },
+                            {
+                                field: 'cart',
+                                headerName: 'Transaction Time',
+                                sortable: true,
+                                minWidth: 250,
+                                renderCell: (row) => (
+                                    <div>
+                                        <Typography variant="caption">
+                                            {format(new Date(row.row.date_created), "p")}
                                         </Typography>
                                     </div>
                                 )

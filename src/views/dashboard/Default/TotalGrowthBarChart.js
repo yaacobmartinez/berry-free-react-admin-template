@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // material-ui
-import { Grid, MenuItem, TextField, Typography, useTheme } from '@material-ui/core';
+import { Button, Grid, MenuItem, TextField, Typography, useTheme } from '@material-ui/core';
 
 // third-party
 import ApexCharts from 'apexcharts';
@@ -17,6 +17,7 @@ import { gridSpacing } from 'store/constant';
 import chartData from './chart-data/total-growth-bar-chart';
 import axiosInstance from 'utils/axios';
 import _ from 'lodash';
+import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 const status = [
     {
@@ -170,6 +171,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
             ApexCharts.exec(`bar-chart`, 'updateOptions', newChartData);
         }
     }, [primary200, primaryDark, secondaryMain, secondaryLight, primary, grey200, isLoading, grey500]);
+    const [showSales, setShowSales] = React.useState(false)
 
     return (
         <>
@@ -186,7 +188,10 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                                             <Typography variant="subtitle2">Total Growth</Typography>
                                         </Grid>
                                         <Grid item>
-                                            <Typography variant="h3">₱{parseFloat(totals[value]).toFixed(2)}</Typography>
+                                            <Typography variant="h3">₱{showSales ? parseFloat(totals[value]).toFixed(2) : "*.**"}</Typography>
+                                        </Grid>
+                                        <Grid item>
+                                            <Button size="small" variant="contained" color="info" startIcon={!showSales ? <Visibility /> : <VisibilityOff />} onClick={() => setShowSales(!showSales)}>{showSales ? `Hide` : `Show`} Sales</Button>
                                         </Grid>
                                     </Grid>
                                 </Grid>

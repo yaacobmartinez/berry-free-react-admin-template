@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
-import { Avatar, Box, Button, ButtonBase, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, SwipeableDrawer, Typography } from '@material-ui/core';
+import { Avatar, Box, Button, ButtonBase, Divider, Hidden, IconButton, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, SwipeableDrawer, Typography } from '@material-ui/core';
 
 // project imports
 import LogoSection from '../LogoSection';
@@ -67,7 +67,14 @@ const Header = ({ handleLeftDrawerToggle }) => {
                 </Avatar>
             </ButtonBase>
             {showReader && (
-                <QRReader open={showReader} onClose={() => setShowReader(false)} onOpen={() => setShowReader(true)} />
+                <>
+                    <Hidden smUp>
+                        <QRReader open={showReader} onClose={() => setShowReader(false)} onOpen={() => setShowReader(true)} />
+                    </Hidden>
+                    <Hidden smDown>
+                        <QRReader open={showReader} onClose={() => setShowReader(false)} onOpen={() => setShowReader(true)} isDesktop/>
+                    </Hidden>
+                </>
             )}
             <div className={classes.grow} />
             <div className={classes.grow} />
@@ -76,7 +83,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
     );
 };
 
-const QRReader = ({open, onClose, onOpen}) => {
+const QRReader = ({open, onClose, onOpen, isDesktop=false}) => {
 
     const [order, setOrder] = React.useState(null)
     const getOrder = React.useCallback(async(id) =>{
@@ -107,12 +114,14 @@ const QRReader = ({open, onClose, onOpen}) => {
             onOpen={onOpen}
             PaperProps={{
                 style: {
+                    left: isDesktop ? '35vw' : 0,
+                    width: isDesktop ? 500 : '100%',
                     borderTopLeftRadius: 20,
                     borderTopRightRadius: 20,
                 }
             }}
         >
-            <div style={{height: '90vh', padding: '5vw'}}>
+            <div style={{height: '90vh', padding: isDesktop ? 30 : '5vw'}}>
                 {!order ? (
                     <>
                         <div style={{padding: 10, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
