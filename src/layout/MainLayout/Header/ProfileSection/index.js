@@ -11,6 +11,7 @@ import {
     ClickAwayListener,
     Divider,
     Grid,
+    IconButton,
     InputAdornment,
     List,
     ListItemIcon,
@@ -36,7 +37,7 @@ import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
 import User1 from 'assets/images/users/user-round.svg';
 import { useNavigate } from 'react-router';
 import { fetchFromStorage } from 'utils/storage';
-import { AccountCircle } from '@material-ui/icons';
+import { AccountCircle, HelpOutline } from '@material-ui/icons';
 
 // style const
 const useStyles = makeStyles((theme) => ({
@@ -237,6 +238,7 @@ const ProfileSection = () => {
                     </Transitions>
                 )}
             </Popper>
+            <IconButton style={{marginLeft: 10}} href="https://drive.google.com/file/d/14CWJGYDA4yagM7Wb50LSQ9o22UCgQcHi/view" target="_blank" size='small'><HelpOutline/></IconButton>
         </>
     );
 };
