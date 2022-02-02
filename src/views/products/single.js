@@ -255,7 +255,6 @@ const ProductForm = ({initialValues, categories}) => {
             </Grid>
             <Grid item xs={12}>
                 <TextField 
-                    type='number'
                     fullWidth 
                     size="small" 
                     name="stocks" 

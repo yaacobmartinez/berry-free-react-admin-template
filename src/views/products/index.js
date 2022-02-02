@@ -371,6 +371,7 @@ const NewProductDrawer = ({open, onClose, onChange, categories}) => {
         // Make sure to revoke the data uris to avoid memory leaks
         files.forEach(file => URL.revokeObjectURL(file.preview));
     }, [files]);
+    const [symbolsArr] = useState(["e", "E", "+", "-", "."]);
     return (
         <SwipeableDrawer anchor="right" open={open} onClose={onClose}>
             <Box sx={{minWidth: 320, width: 500, padding: 2, marginTop: 8}} component="form" onSubmit={handleSubmit}>
@@ -455,6 +456,7 @@ const NewProductDrawer = ({open, onClose, onChange, categories}) => {
                             InputProps={{
                                 endAdornment: `PHP`
                             }}
+                            onKeyDown={e => e.key === "-" && e.preventDefault()}
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -472,6 +474,7 @@ const NewProductDrawer = ({open, onClose, onChange, categories}) => {
                             InputProps={{
                                 endAdornment: `PHP`
                             }}
+                            onKeyDown={e => e.key === "-" && e.preventDefault()}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -498,6 +501,7 @@ const NewProductDrawer = ({open, onClose, onChange, categories}) => {
                             onBlur={handleBlur}
                             error={Boolean(errors.stocks)}
                             helperText={errors.stocks}
+                            onKeyDown={e => symbolsArr.includes(e.key) && e.preventDefault()}
                         />
                     </Grid>
                 </Grid>
