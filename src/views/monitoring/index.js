@@ -193,9 +193,11 @@ const OrderDialog = ({ open, onClose, order, onChange }) => {
                 <Typography variant="caption" component="h6" style={{ textAlign: 'center', marginTop: 10 }} >
                     INVOICE ID: {order?._id}
                 </Typography>
-                <Typography variant="caption" component="h6" gutterBottom style={{ textAlign: 'center' }} >
-                    {format(new Date(order.date_created), 'PPpp')}
-                </Typography>
+                {order && (
+                    <Typography variant="caption" component="h6" gutterBottom style={{ textAlign: 'center' }} >
+                        {format(new Date(order?.date_created), 'PPpp')}
+                    </Typography>
+                )}
                 <Divider />
                 <List style={{ width: '100%', padding: 0 }}>
                     {order?.cart.map((item, index) => (
