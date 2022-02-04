@@ -76,7 +76,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-//= ==========================|| FIREBASE - REGISTER ||===========================//
 
 const FirebaseRegister = ({ ...others }) => {
     const classes = useStyles();
