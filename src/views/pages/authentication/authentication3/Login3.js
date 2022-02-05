@@ -44,6 +44,18 @@ const Login = () => {
                                     <Grid item xs={12}>
                                         <Grid item container direction="column" alignItems="center" xs={12}>
                                             <Typography
+                                                component={RouterLink}
+                                                to="/register"
+                                                variant="subtitle1"
+                                                sx={{ textDecoration: 'none' }}
+                                            >
+                                                Don&apos;t have an account?
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Grid item container direction="column" alignItems="center" xs={12}>
+                                            <Typography
                                                 onClick={() => setForgot(true)}
                                                 variant="subtitle1"
                                                 sx={{ textDecoration: 'none' }}
