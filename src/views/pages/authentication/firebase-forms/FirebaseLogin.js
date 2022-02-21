@@ -151,6 +151,7 @@ const FirebaseLogin = (props, { ...others }) => {
                                 saveToStorage('token', data.token)
                                 saveToStorage('user', data.user)
                                 navigate('/dashboard/default')
+                                window.location.reload()
                                 setStatus({ success: true });
                                 setSubmitting(false);
                             }
